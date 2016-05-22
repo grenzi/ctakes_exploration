@@ -10,11 +10,16 @@
         <html>
             <body>
                 <h2>UMLS Parsing Output</h2>
-                <p>The xslt creating this currently handles the following: <ul>
+                <p>xlst could be refactored to use templates for repeated sections. The xslt
+                    creating this currently handles the following: <ul>
                         <li>MedicationMention</li>
                         <li>SignSymptomMention</li>
                         <li>DiseaseDisorderMention</li>
-                    </ul></p>
+                        <li>ProcedureMention</li>
+                        <li>AnatomicalSiteMention</li>
+                    </ul>
+                </p>
+
                 <h3>Medications</h3>
                 <p>There are other fields available here, such as frequency and route and so
                     forth</p>
@@ -266,6 +271,180 @@
                     </xsl:for-each>
                 </table>
 
+                <h3>Procedures</h3>
+                <table border="1">
+                    <tr>
+                        <th>Id</th>
+                        <th>Score</th>
+                        <th>Matched Text</th>
+                        <th>Concepts</th>
+                    </tr>
+                    <xsl:for-each select="//textsem:ProcedureMention">
+                        <xsl:variable name="conceptseq" as="xs:string*"
+                            select="tokenize(@ontologyConceptArr, ' ')"/>
+                        <xsl:variable name="polarity">
+                            <xsl:choose>
+                                <xsl:when test="@polarity">
+                                    <xsl:value-of select="@polarity"/>
+                                </xsl:when>
+                                <xsl:otherwise>1</xsl:otherwise>
+                                <!-- default value -->
+                            </xsl:choose>
+                        </xsl:variable>
+
+                        <xsl:variable name="confidence">
+                            <xsl:choose>
+                                <xsl:when test="not(xs:decimal(@confidence) eq 0)">
+                                    <xsl:value-of select="@confidence"/>
+                                </xsl:when>
+                                <xsl:otherwise>1</xsl:otherwise>
+                                <!-- default value -->
+                            </xsl:choose>
+                        </xsl:variable>
+                        <tr>
+                            <td>
+                                <xsl:value-of select="@xmi:id"/>
+                            </td>
+                            <td>
+                                <xsl:value-of
+                                    select="format-number(xs:decimal($confidence) * xs:decimal($polarity), '0.00')"
+                                />
+                            </td>
+                            <td>
+                                <xsl:value-of
+                                    select="substring(//cas:Sofa/@sofaString, @begin, xs:integer(@end) - xs:integer(@begin) + 1)"
+                                />
+                            </td>
+                            <td>
+                                <table>
+                                    <!-- concepts -->
+                                    <tr>
+                                        <th>tui</th>
+                                        <th>preferred text</th>
+                                        <th>scheme</th>
+                                        <th>code</th>
+                                    </tr>
+                                    <xsl:for-each select="$conceptseq">
+                                        <xsl:variable name="conceptid" select="."/>
+                                        <tr>
+                                            <td>
+                                                <xsl:value-of
+                                                  select="$doc1/refsem:UmlsConcept[@xmi:id = $conceptid]/@tui"
+                                                />
+                                            </td>
+                                            <td>
+                                                <xsl:value-of
+                                                  select="$doc1/refsem:UmlsConcept[@xmi:id = $conceptid]/@preferredText"
+                                                />
+                                            </td>
+                                            <td>
+                                                <xsl:value-of
+                                                  select="$doc1/refsem:UmlsConcept[@xmi:id = $conceptid]/@codingScheme"
+                                                />
+                                            </td>
+                                            <td>
+                                                <xsl:value-of
+                                                  select="$doc1/refsem:UmlsConcept[@xmi:id = $conceptid]/@code"
+                                                />
+                                            </td>
+                                        </tr>
+                                    </xsl:for-each>
+                                </table>
+                                <!-- concepts -->
+                            </td>
+                        </tr>
+                    </xsl:for-each>
+                </table>
+
+                <h3>Anatomical Sites</h3>
+                <table border="1">
+                    <tr>
+                        <th>Id</th>
+                        <th>Score</th>
+                        <th>Matched Text</th>
+                        <th>Concepts</th>
+                    </tr>
+                    <xsl:for-each select="//textsem:AnatomicalSiteMention">
+                        <xsl:variable name="conceptseq" as="xs:string*"
+                            select="tokenize(@ontologyConceptArr, ' ')"/>
+                        <xsl:variable name="polarity">
+                            <xsl:choose>
+                                <xsl:when test="@polarity">
+                                    <xsl:value-of select="@polarity"/>
+                                </xsl:when>
+                                <xsl:otherwise>1</xsl:otherwise>
+                                <!-- default value -->
+                            </xsl:choose>
+                        </xsl:variable>
+
+                        <xsl:variable name="confidence">
+                            <xsl:choose>
+                                <xsl:when test="not(xs:decimal(@confidence) eq 0)">
+                                    <xsl:value-of select="@confidence"/>
+                                </xsl:when>
+                                <xsl:otherwise>1</xsl:otherwise>
+                                <!-- default value -->
+                            </xsl:choose>
+                        </xsl:variable>
+                        <tr>
+                            <td>
+                                <xsl:value-of select="@xmi:id"/>
+                            </td>
+                            <td>
+                                <xsl:value-of
+                                    select="format-number(xs:decimal($confidence) * xs:decimal($polarity), '0.00')"
+                                />
+                            </td>
+                            <td>
+                                <xsl:value-of
+                                    select="substring(//cas:Sofa/@sofaString, @begin, xs:integer(@end) - xs:integer(@begin) + 1)"
+                                />
+                            </td>
+                            <td>
+                                <table>
+                                    <!-- concepts -->
+                                    <tr>
+                                        <th>tui</th>
+                                        <th>preferred text</th>
+                                        <th>scheme</th>
+                                        <th>code</th>
+                                    </tr>
+                                    <xsl:for-each select="$conceptseq">
+                                        <xsl:variable name="conceptid" select="."/>
+                                        <tr>
+                                            <td>
+                                                <xsl:value-of
+                                                  select="$doc1/refsem:UmlsConcept[@xmi:id = $conceptid]/@tui"
+                                                />
+                                            </td>
+                                            <td>
+                                                <xsl:value-of
+                                                  select="$doc1/refsem:UmlsConcept[@xmi:id = $conceptid]/@preferredText"
+                                                />
+                                            </td>
+                                            <td>
+                                                <xsl:value-of
+                                                  select="$doc1/refsem:UmlsConcept[@xmi:id = $conceptid]/@codingScheme"
+                                                />
+                                            </td>
+                                            <td>
+                                                <xsl:value-of
+                                                  select="$doc1/refsem:UmlsConcept[@xmi:id = $conceptid]/@code"
+                                                />
+                                            </td>
+                                        </tr>
+                                    </xsl:for-each>
+                                </table>
+                                <!-- concepts -->
+                            </td>
+                        </tr>
+                    </xsl:for-each>
+                </table>
+
+                <h2>Passed Text</h2>
+                <pre>
+                     <xsl:value-of select="//cas:Sofa/@sofaString"/>
+                </pre>
             </body>
         </html>
     </xsl:template>

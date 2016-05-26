@@ -1,40 +1,55 @@
-VAGRANTFILE_API_VERSION = "2"
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
 
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure(2) do |config|
 
-  config.vm.box = "precise32"
-  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+  config.vm.box = "parallels/ubuntu-12.04"
+  config.vm.box_check_update = false
 
-  config.vm.provider "virtualbox" do |v|
-    v.name = "zato20"
-    v.gui = true
-  end
+  config.vm.network "forwarded_port", guest: 11223, host: 9001 #loadbalancer 
+  config.vm.network "forwarded_port", guest: 17010, host: 9010 #server1 http
+  config.vm.network "forwarded_port", guest: 17011, host: 9011 #server2 http
+  config.vm.network "forwarded_port", guest: 8183,  host: 9000 #web admin
 
-  config.vm.hostname = "zato11"
-  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+  #config.vm.synced_folder ".", "/home/vagrant"
+  config.vm.hostname = "zato"
 
-  config.vm.define "zato20" do |z|
 
-  # Repository update & install curl
-  z.vm.provision "shell", inline: "apt-get update"
-  z.vm.provision "shell", inline: "apt-get -y install curl"
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get update
+    sudo apt-get install build-essential -y
+    wget http://download.redis.io/redis-stable.tar.gz
+    tar xvzf redis-stable.tar.gz
+    cd redis-stable
+    cd deps; make hiredis lua jemalloc linenoise geohash-int
+    sudo make install
+    /usr/local/bin/redis-server
+    sudo service redis_6379 start
 
-  # Helper programs used for installing
-  z.vm.provision "shell", inline: "apt-get -y install apt-transport-https"
-  z.vm.provision "shell", inline: "apt-get -y install python-software-properties"
+    sudo apt-get install curl -y
+    curl -s https://zato.io/repo/zato-0CBD7F72.pgp.asc | sudo apt-key add -
+    sudo apt-add-repository https://zato.io/repo/stable/2.0/ubuntu
+    sudo apt-get update
+    sudo apt-get -y install apt-transport-https
+    sudo apt-get -y install python-software-properties
+    sudo apt-get -y install zato
+    export PATH=$PATH:/opt/zato/current/bin
+    echo 'export PATH=$PATH:/opt/zato/current/bin' >>~/.bash_profile
+    zato --version
+    mkdir /vagrant/zatoenv
+    zato quickstart create /vagrant/zatoenv sqlite localhost 6379  --verbose
+    find /vagrant/zatoenv/*.sh | xargs chmod a+x
 
-  # Add the package signing key
-  z.vm.provision "shell", inline: "curl -s https://zato.io/repo/zato-0CBD7F72.pgp.asc | apt-key add -"
+    echo --------
+    echo run: 
+    echo 
+    echo see here for changes to config for listenting: https://mailman-mail5.webfaction.com/pipermail/zato-discuss/2013-November/000102.html     gunicorn_bind=localhost:17010
+    echo zato update password /vagrant/zatoenv/web-admin/ admin
+    echo /vagrant/zatoenv/zato-qs-start.sh
 
-  # Add Zato repo and update sources
-  z.vm.provision "shell", inline: "apt-add-repository https://zato.io/repo/stable/2.0/ubuntu"
-  z.vm.provision "shell", inline: "apt-get update"
-
-  # Install Zato
-  z.vm.provision "shell", inline: "apt-get -y install zato"
-
-  # Set the default password
-  z.vm.provision "shell", inline: "echo zato:zato | chpasswd"
-
-  end
+  SHELL
 end

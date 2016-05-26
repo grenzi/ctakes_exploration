@@ -1,2 +1,7 @@
 .DS_Store
 *.bak
+zato/.cache
+zato/pickup-dir
+zato/.rnd
+*.log
+pubsub-overflown.log

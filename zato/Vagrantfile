@@ -15,41 +15,58 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 17011, host: 9011 #server2 http
   config.vm.network "forwarded_port", guest: 8183,  host: 9000 #web admin
 
-  #config.vm.synced_folder ".", "/home/vagrant"
+  #/vagrant is mapped to the directory contiaining the project by default
   config.vm.hostname = "zato"
 
 
   config.vm.provision "shell", inline: <<-SHELL
-    sudo apt-get update
-    sudo apt-get install build-essential -y
-    wget http://download.redis.io/redis-stable.tar.gz
-    tar xvzf redis-stable.tar.gz
-    cd redis-stable
-    cd deps; make hiredis lua jemalloc linenoise geohash-int
-    sudo make install
-    /usr/local/bin/redis-server
-    sudo service redis_6379 start
+  #these are the right steps, but they seem to only work when copy pasted. idk 
+  ZATODIR=/home/vagrant/zato
 
-    sudo apt-get install curl -y
-    curl -s https://zato.io/repo/zato-0CBD7F72.pgp.asc | sudo apt-key add -
-    sudo apt-add-repository https://zato.io/repo/stable/2.0/ubuntu
-    sudo apt-get update
-    sudo apt-get -y install apt-transport-https
-    sudo apt-get -y install python-software-properties
-    sudo apt-get -y install zato
-    export PATH=$PATH:/opt/zato/current/bin
-    echo 'export PATH=$PATH:/opt/zato/current/bin' >>~/.bash_profile
-    zato --version
-    mkdir /vagrant/zatoenv
-    zato quickstart create /vagrant/zatoenv sqlite localhost 6379  --verbose
-    find /vagrant/zatoenv/*.sh | xargs chmod a+x
+  #redis
+  cd /vagrant
+  sudo apt-get update
+  sudo apt-get install build-essential -y
+  wget http://download.redis.io/redis-stable.tar.gz
+  tar xvzf redis-stable.tar.gz
+  cd redis-stable
+  cd deps; make hiredis lua jemalloc linenoise geohash-int
+  cd ..
+  sudo make install
+  cd utils
+  sudo ./install_server.sh
 
-    echo --------
-    echo run: 
-    echo 
-    echo see here for changes to config for listenting: https://mailman-mail5.webfaction.com/pipermail/zato-discuss/2013-November/000102.html     gunicorn_bind=localhost:17010
-    echo zato update password /vagrant/zatoenv/web-admin/ admin
-    echo /vagrant/zatoenv/zato-qs-start.sh
+  sudo service redis_6379 start
+  cd /vagrant 
+
+  #zato
+  sudo apt-get install curl -y
+  sudo apt-get install python-software-properties -y
+  curl -s https://zato.io/repo/zato-0CBD7F72.pgp.asc | sudo apt-key add -
+  sudo apt-add-repository https://zato.io/repo/stable/2.0/ubuntu
+  sudo apt-get update
+  sudo apt-get -y install apt-transport-https
+  sudo apt-get -y install zato
+  export PATH=$PATH:/opt/zato/current/bin
+  echo 'export PATH=$PATH:/opt/zato/current/bin' >>~/.bash_profile
+  echo 'export ZATODIR=$ZATODIR' >>~/.bash_profile
+  zato --version
+  mkdir /vagrant/zatoenv
+  zato quickstart create $ZATODIR sqlite localhost 6379  --verbose
+  find $ZATODIR/*.sh | xargs chmod a+x
+  zato update password $ZATODIR/web-admin/ admin
+
+
+  echo --------
+  echo run: 
+  echo 
+  echo see here for changes to config for listenting: https://mailman-mail5.webfaction.com/pipermail/zato-discuss/2013-November/000102.html     gunicorn_bind=localhost:17010
+  echo to clear a bad shutdown
+  echo      find . | grep pid | xargs rm./vagrant
+  echo to start zato
+  echo      $ZATODIR/zato-qs-start.sh
+  echo ping service
+  echo      curl localhost:11223/zato/ping ; echo
 
   SHELL
 end

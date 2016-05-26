@@ -28,7 +28,7 @@ fi
 
 ZATO_BIN=zato
 STEPS=4
-CLUSTER=quickstart-468983
+CLUSTER=quickstart-928340
 
 echo Stopping the Zato cluster $CLUSTER
 

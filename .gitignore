@@ -5,3 +5,6 @@ zato/pickup-dir
 zato/.rnd
 *.log
 pubsub-overflown.log
+zato/zatoenv/web-admin/logs
+pidfile
+logs

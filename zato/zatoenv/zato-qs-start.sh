@@ -15,7 +15,7 @@ BASE_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 ZATO_BIN=zato
 STEPS=6
-CLUSTER=quickstart-468983
+CLUSTER=quickstart-928340
 
 echo Starting the Zato cluster $CLUSTER
 echo Running sanity checks

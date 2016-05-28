@@ -29,3 +29,6 @@ zato/zatoenv/server2/config/repo/.bzr/repository/indices/a9ef7ad3f63cc0e1e600167
 zato/zatoenv/server2/config/repo/.bzr/repository/indices/a9ef7ad3f63cc0e1e60016703eec15f7.tix
 zato/zatoenv/server2/config/repo/.bzr/repository/pack-names
 zato/zatoenv/server2/config/repo/.bzr/repository/packs/a9ef7ad3f63cc0e1e60016703eec15f7.pack
+zato/tmp
+zato/zatoenv/server1/work
+zato/zatoenv/server2/work

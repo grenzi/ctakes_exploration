@@ -5,7 +5,7 @@
 # installed into /opt/zato/server1
 
 # List your service sources below, each on a separate line.
-
+/vagrant/pickup-dir
 # Recommended to be always the very last line so all services that have been
 # hot-deployed are picked up last.
 ./work/hot-deploy/current

@@ -21,11 +21,12 @@
 basically, domain driven. maybe have a clear deseignation of internal pseudomicro services for change management (ensure we have complete test coverage on external facing services, but can slide a little on internal ones)
 
 Path|Description
------------- | -------------
-corpora
-  - crud | corpora description here
-- terms 
-  * extract-terms
+---------------------- | --------------------------
+corpora                | corpora description here
+corpora/crud		   |
+terms 				   | term decription here
+terms/extrct-terms     | extract-terms desecriptioon
+
 - taxonomies
   - crud
   - search

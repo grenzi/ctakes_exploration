@@ -1,0 +1,1138 @@
+{
+  "text-length": 2090,
+  "analysis-engine": "/opt/ctakes/desc/ctakes-ytex-uima/desc/analysis_engine/AggregatePlaintextUMLSProcessor.xml",
+  "entity-count": 91,
+  "concept-count": 113,
+  "entities": [
+    {
+      "generic": false,
+      "text": "HISTORY OF",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0262926"
+    },
+    {
+      "generic": false,
+      "text": "HISTORY",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0262926"
+    },
+    {
+      "generic": false,
+      "text": "ILLNESS",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0221423"
+    },
+    {
+      "generic": false,
+      "text": "hypertension",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0020538"
+    },
+    {
+      "generic": false,
+      "text": "hypercholesterolemia",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0020443"
+    },
+    {
+      "generic": false,
+      "text": "medications",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0013227"
+    },
+    {
+      "generic": false,
+      "text": "blood pressures",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C1272641"
+    },
+    {
+      "generic": true,
+      "text": "blood",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0005767"
+    },
+    {
+      "generic": false,
+      "text": "pressures",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0460139"
+    },
+    {
+      "generic": false,
+      "text": "low back pain",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0024031"
+    },
+    {
+      "generic": false,
+      "text": "back pain",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0004604"
+    },
+    {
+      "generic": true,
+      "text": "back",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 7.808305825038866,
+      "disambiguated": true,
+      "code": "C1995000"
+    },
+    {
+      "generic": true,
+      "text": "back",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": false,
+      "code": "C1281593"
+    },
+    {
+      "generic": false,
+      "text": "pain",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0030193"
+    },
+    {
+      "generic": false,
+      "text": "legs",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 6.137663908026057,
+      "disambiguated": false,
+      "code": "C1269079"
+    },
+    {
+      "generic": false,
+      "text": "legs",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 7.480715348561513,
+      "disambiguated": true,
+      "code": "C0023216"
+    },
+    {
+      "generic": false,
+      "text": "legs",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 4.778401495034473,
+      "disambiguated": false,
+      "code": "C1140621"
+    },
+    {
+      "generic": false,
+      "text": "legs",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 4.91125943198149,
+      "disambiguated": false,
+      "code": "C1285009"
+    },
+    {
+      "generic": false,
+      "text": "fevers",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0015967"
+    },
+    {
+      "generic": false,
+      "text": "night sweats",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0028081"
+    },
+    {
+      "generic": false,
+      "text": "sweats",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 3.778346161332527,
+      "disambiguated": true,
+      "code": "C0038990"
+    },
+    {
+      "generic": false,
+      "text": "sweats",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 3.7412701497274843,
+      "disambiguated": false,
+      "code": "C0038984"
+    },
+    {
+      "generic": false,
+      "text": "weight loss",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C1262477"
+    },
+    {
+      "generic": false,
+      "text": "bowel or bladder problems",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0579086"
+    },
+    {
+      "generic": true,
+      "text": "bowel",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0021853"
+    },
+    {
+      "generic": true,
+      "text": "bladder problems",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0579152"
+    },
+    {
+      "generic": true,
+      "text": "bladder",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 4.570777828604953,
+      "disambiguated": false,
+      "code": "C1281573"
+    },
+    {
+      "generic": true,
+      "text": "bladder",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 7.253347726797083,
+      "disambiguated": true,
+      "code": "C0005682"
+    },
+    {
+      "generic": true,
+      "text": "problems",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0033213"
+    },
+    {
+      "generic": false,
+      "text": "skin cancer",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0007114"
+    },
+    {
+      "generic": true,
+      "text": "skin",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 5.382572739291285,
+      "disambiguated": false,
+      "code": "C1123023"
+    },
+    {
+      "generic": true,
+      "text": "skin",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 5.495512083642598,
+      "disambiguated": true,
+      "code": "C1278993"
+    },
+    {
+      "generic": false,
+      "text": "cancer",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 6.456050666918646,
+      "disambiguated": true,
+      "code": "C1306459"
+    },
+    {
+      "generic": false,
+      "text": "cancer",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 4.51502002959607,
+      "disambiguated": false,
+      "code": "C0006826"
+    },
+    {
+      "generic": false,
+      "text": "ALLERGIES",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": false,
+      "code": "C3539909"
+    },
+    {
+      "generic": false,
+      "text": "ALLERGIES",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 4.777539100601482,
+      "disambiguated": true,
+      "code": "C0020517"
+    },
+    {
+      "generic": false,
+      "text": "SOCIAL HISTORY",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0424945"
+    },
+    {
+      "generic": false,
+      "text": "HISTORY",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0262926"
+    },
+    {
+      "generic": false,
+      "text": "REVIEW OF SYSTEMS",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0489633"
+    },
+    {
+      "generic": false,
+      "text": "chest pain",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0008031"
+    },
+    {
+      "generic": true,
+      "text": "chest",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0817096"
+    },
+    {
+      "generic": false,
+      "text": "pain",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0030193"
+    },
+    {
+      "generic": false,
+      "text": "palpitations",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0030252"
+    },
+    {
+      "generic": false,
+      "text": "orthopnea",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0085619"
+    },
+    {
+      "generic": false,
+      "text": "edema",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0013604"
+    },
+    {
+      "generic": false,
+      "text": "syncope",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0039070"
+    },
+    {
+      "generic": false,
+      "text": "shortness of breath",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0013404"
+    },
+    {
+      "generic": false,
+      "text": "breath",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0225386"
+    },
+    {
+      "generic": false,
+      "text": "cough",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0010200"
+    },
+    {
+      "generic": false,
+      "text": "abdominal pain",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0000737"
+    },
+    {
+      "generic": true,
+      "text": "abdominal",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0000726"
+    },
+    {
+      "generic": false,
+      "text": "pain",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0030193"
+    },
+    {
+      "generic": false,
+      "text": "changes in bowel habits",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0278008"
+    },
+    {
+      "generic": true,
+      "text": "bowel",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0021853"
+    },
+    {
+      "generic": false,
+      "text": "PHYSICAL EXAMINATION",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0031809"
+    },
+    {
+      "generic": false,
+      "text": "EXAMINATION",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0031809"
+    },
+    {
+      "generic": false,
+      "text": "SIGNS",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0311392"
+    },
+    {
+      "generic": false,
+      "text": "Conjunctivae",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 5.637737782506672,
+      "disambiguated": true,
+      "code": "C0009758"
+    },
+    {
+      "generic": false,
+      "text": "Conjunctivae",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 4.341136228688132,
+      "disambiguated": false,
+      "code": "C1278888"
+    },
+    {
+      "generic": false,
+      "text": "Sclerae",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 4.987404219108056,
+      "disambiguated": true,
+      "code": "C0036410"
+    },
+    {
+      "generic": false,
+      "text": "Sclerae",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 4.320518326263227,
+      "disambiguated": false,
+      "code": "C1278890"
+    },
+    {
+      "generic": false,
+      "text": "NECK",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 5.83994885276995,
+      "disambiguated": false,
+      "code": "C1281592"
+    },
+    {
+      "generic": false,
+      "text": "NECK",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 6.98421010284821,
+      "disambiguated": true,
+      "code": "C0027530"
+    },
+    {
+      "generic": false,
+      "text": "lymphadenopathy",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0497156"
+    },
+    {
+      "generic": false,
+      "text": "LUNGS",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 5.762174637773689,
+      "disambiguated": true,
+      "code": "C0024109"
+    },
+    {
+      "generic": false,
+      "text": "LUNGS",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 4.6654253569363835,
+      "disambiguated": false,
+      "code": "C1278908"
+    },
+    {
+      "generic": false,
+      "text": "HEART",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 7.7670823305739916,
+      "disambiguated": true,
+      "code": "C0018787"
+    },
+    {
+      "generic": false,
+      "text": "HEART",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 4.942836725497849,
+      "disambiguated": false,
+      "code": "C1281570"
+    },
+    {
+      "generic": false,
+      "text": "murmur",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0018808"
+    },
+    {
+      "generic": false,
+      "text": "EXTREMITIES",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0015385"
+    },
+    {
+      "generic": false,
+      "text": "edema",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0013604"
+    },
+    {
+      "generic": false,
+      "text": "tenderness",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0234233"
+    },
+    {
+      "generic": false,
+      "text": "spine",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 7.95319118708046,
+      "disambiguated": false,
+      "code": "C1267072"
+    },
+    {
+      "generic": false,
+      "text": "spine",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 9.474736696440663,
+      "disambiguated": true,
+      "code": "C1280065"
+    },
+    {
+      "generic": false,
+      "text": "Straight leg raise",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0422926"
+    },
+    {
+      "generic": true,
+      "text": "leg",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 6.137663908026057,
+      "disambiguated": false,
+      "code": "C1269079"
+    },
+    {
+      "generic": true,
+      "text": "leg",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 4.778401495034473,
+      "disambiguated": false,
+      "code": "C1140621"
+    },
+    {
+      "generic": true,
+      "text": "leg",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 4.91125943198149,
+      "disambiguated": false,
+      "code": "C1285009"
+    },
+    {
+      "generic": true,
+      "text": "leg",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 7.480715348561513,
+      "disambiguated": true,
+      "code": "C0023216"
+    },
+    {
+      "generic": false,
+      "text": "ASSESSMENT",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C1261322"
+    },
+    {
+      "generic": false,
+      "text": "Hypertension",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0020538"
+    },
+    {
+      "generic": false,
+      "text": "control",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0308718"
+    },
+    {
+      "generic": false,
+      "text": "enalapril to 20 mg",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C1123179"
+    },
+    {
+      "generic": false,
+      "text": "enalapril",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0014025"
+    },
+    {
+      "generic": false,
+      "text": "atenolol 25 mg",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0983888"
+    },
+    {
+      "generic": false,
+      "text": "atenolol",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0004147"
+    },
+    {
+      "generic": false,
+      "text": "creatinine",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0010294"
+    },
+    {
+      "generic": false,
+      "text": "potassium",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0032821"
+    },
+    {
+      "generic": false,
+      "text": "today",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0310367"
+    },
+    {
+      "generic": false,
+      "text": "Hypercholesterolemia",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0020443"
+    },
+    {
+      "generic": false,
+      "text": "Lipitor",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0593906"
+    },
+    {
+      "generic": false,
+      "text": "lipids",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0023779"
+    },
+    {
+      "generic": false,
+      "text": "today",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0310367"
+    },
+    {
+      "generic": false,
+      "text": "Back pain",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0004604"
+    },
+    {
+      "generic": true,
+      "text": "Back",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 7.808305825038866,
+      "disambiguated": true,
+      "code": "C1995000"
+    },
+    {
+      "generic": true,
+      "text": "Back",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": false,
+      "code": "C1281593"
+    },
+    {
+      "generic": false,
+      "text": "pain",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0030193"
+    },
+    {
+      "generic": false,
+      "text": "history of radiation exposure",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0455620"
+    },
+    {
+      "generic": false,
+      "text": "history of",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0262926"
+    },
+    {
+      "generic": false,
+      "text": "history",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": -1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0262926"
+    },
+    {
+      "generic": true,
+      "text": "exposure",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0274281"
+    },
+    {
+      "generic": false,
+      "text": "x-ray",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 5.335314075990083,
+      "disambiguated": false,
+      "code": "C1306645"
+    },
+    {
+      "generic": false,
+      "text": "x-ray",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 8.341149602074257,
+      "disambiguated": true,
+      "code": "C1962945"
+    },
+    {
+      "generic": false,
+      "text": "CBC",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0009555"
+    },
+    {
+      "generic": false,
+      "text": "calcium",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0006675"
+    },
+    {
+      "generic": false,
+      "text": "Therapy",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0087111"
+    },
+    {
+      "generic": false,
+      "text": "acetaminophen",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0000970"
+    },
+    {
+      "generic": false,
+      "text": "back pain",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0004604"
+    },
+    {
+      "generic": true,
+      "text": "back",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 7.808305825038866,
+      "disambiguated": true,
+      "code": "C1995000"
+    },
+    {
+      "generic": true,
+      "text": "back",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": false,
+      "code": "C1281593"
+    },
+    {
+      "generic": false,
+      "text": "pain",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 0,
+      "disambiguated": true,
+      "code": "C0030193"
+    },
+    {
+      "generic": false,
+      "text": "worse",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 3.962222226989687,
+      "disambiguated": false,
+      "code": "C1279889"
+    },
+    {
+      "generic": false,
+      "text": "worse",
+      "scheme": "UMLS",
+      "concepttext": "preferred text will go here",
+      "polarity": 1,
+      "score": 4.176067636295637,
+      "disambiguated": true,
+      "code": "C1457868"
+    }
+  ]
+}

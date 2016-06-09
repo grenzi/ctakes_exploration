@@ -5,9 +5,12 @@
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
+
+
+
 Vagrant.configure(2) do |config|
 
-  config.vm.box = "parallels/ubuntu-12.04"
+  config.vm.box = "puphpet/ubuntu1404-x64"
   config.vm.box_check_update = false
 
   config.vm.network "forwarded_port", guest: 11223, host: 9001 #loadbalancer 
@@ -17,7 +20,12 @@ Vagrant.configure(2) do |config|
 
   #/vagrant is mapped to the directory contiaining the project by default
   config.vm.hostname = "zato"
-
+  
+  config.vm.provider "parallels" do |prl|
+    prl.name = "my_vm"
+    prl.memory = 1024
+    prl.cpus = 2
+  end
 
   config.vm.provision "shell", inline: <<-SHELL
  
@@ -50,6 +58,14 @@ Vagrant.configure(2) do |config|
   sudo apt-get install python-dev -y
   sudo apt-get install python-setuptools -y
   sudo easy_install lxml
+  sudo apt-get install libffi-dev -y
+  sudo easy_install -U setuptools
+
+  sudo pip install --upgrade pip
+  echo 'export PATH=$PATH:/usr/local/bin' >>~/.bash_profile
+  PATH=$PATH:/usr/local/bin
+
+
 
   #zato
   sudo apt-get install curl -y
@@ -63,14 +79,17 @@ Vagrant.configure(2) do |config|
   echo 'export PATH=$PATH:/opt/zato/current/bin' >>~/.bash_profile
   echo 'export ZATODIR='$ZATODIR >>~/.bash_profile
   zato --version
+  sudo rm -rf $ZATODIR
   sudo mkdir $ZATODIR
   sudo chown vagrant $ZATODIR
   cd $ZATODIR
-  cp -R /vagrant/zatoenv/* .
-  #zato quickstart create $ZATODIR sqlite localhost 6379  --verbose
+  zato quickstart create $ZATODIR sqlite localhost 6379  --verbose
   sudo find $ZATODIR | grep pid | xargs rm  
   find $ZATODIR/*.sh | xargs chmod a+x
   zato update password $ZATODIR/web-admin/ admin
+  sudo pip install flake8
+  pip install git+git://github.com/grenzi/zato-deploy-cli.git
+
 
   echo --------
   echo run: 

@@ -1,6 +1,9 @@
 #!/bin/bash
 $ZATODIR/zato-qs-stop.sh
-#cp -R /vagrant/zatoenv $ZATODIR
-./config.py
+cd configs
+zato-deploy
 find $ZATODIR | grep pid | xargs rm
 $ZATODIR/zato-qs-start.sh
+netstat -al | grep LIST
+
+

@@ -2,7 +2,7 @@ from zato.client import AnyServiceInvoker
 
 address = 'http://localhost:11223'
 path = '/zato/admin/invoke'
-auth = ('pydev', 'admin','Zato admin invoke')
+auth = ('admin.invoke', 'admin')
 
 
 client = AnyServiceInvoker(address, path, auth)

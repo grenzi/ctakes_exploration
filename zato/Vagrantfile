@@ -90,6 +90,8 @@ Vagrant.configure(2) do |config|
   zato update password $ZATODIR/web-admin/ admin
   sudo -H pip install flake8
   pip install git+git://github.com/grenzi/zato-deploy-cli.git
+  sudo rm -rf /usr/local/man
+  sudo mkdir -p /usr/local/man
   sudo -H pip install zato-apitest
 
 

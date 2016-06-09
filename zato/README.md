@@ -32,3 +32,11 @@ cd /vagrant/zatodev
 
 ## misc
 - testing info [here](https://zato.io/docs/2.0/test/apitest/index.html)
+- adding a new service
+  - create under zatodev/services/domain/etc
+  - use template
+  - if you call external webservice, add entry to [outgoings.conf](zatodev/configs/outgoings.conf)
+  - add service .py file / directory / glob to [deploy.conf](zatodev/configs/deploy.conf)
+  - add a plain http channel [channels.conf](zatodev/configs/channels.conf)
+  - (don't forget to run go.sh on the vagrant box to create these if needed)
+

@@ -1,3 +1,12 @@
+"""
+.. module:: terms
+   :synopsis: A useful module indeed.
+
+
+.. moduleauthor:: gage
+
+"""
+
 from zato.server.service import Service
 
 

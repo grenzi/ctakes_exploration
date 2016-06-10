@@ -39,4 +39,5 @@ cd /vagrant/zatodev
   - add service .py file / directory / glob to [deploy.conf](zatodev/configs/deploy.conf)
   - add a plain http channel [channels.conf](zatodev/configs/channels.conf)
   - (don't forget to run go.sh on the vagrant box to create these if needed)
+- right now, using https://pypi.python.org/pypi/sqlacodegen for generating the sqlalchemy defs
 

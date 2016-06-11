@@ -38,8 +38,3 @@ skeleton content generated in the sphinx output. know it's got to be something s
 I'm missing
 
 
-
-## directories below this
-
-### configs
-

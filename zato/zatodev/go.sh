@@ -14,10 +14,10 @@ cd configs
 cd ..
 
 printf "\n${BLUE}...copying shared files${NC}\n"
-#copy shared files - assume ZATODIR is at same level as zato
 sudo mkdir -p /opt/zato/2.0.7/zato_extra_paths/sql
 sudo chown vagrant /opt/zato/2.0.7/zato_extra_paths/sql
 cp ./sql/*.py /opt/zato/2.0.7/zato_extra_paths/sql
+sudo cp -R ./lib/bunch /opt/zato/2.0.7/zato_extra_paths
 
 printf "${BLUE}...starting zato${NC}\n"
 find $ZATODIR | grep pid | xargs rm 2>/dev/null
@@ -25,7 +25,7 @@ $ZATODIR/zato-qs-start.sh
 netstat -al | grep LIST
 
 printf "${BLUE}...running deploy.sh next${NC}\n"
-./deploy.sh
+source ./deploy.sh
 
 
 #todo - get host ip:

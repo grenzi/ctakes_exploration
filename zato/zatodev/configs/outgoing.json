@@ -1,0 +1,13 @@
+{
+  "outconn_plain_http": [
+    {
+      "name": "cte-internal-ctakes",
+      "host": "test11.example.com",
+      "connection": "outgoing",
+      "is_active": true,
+      "is_internal": false,
+      "transport": "plain-http",
+      "url_path": "/out/1"
+    },
+  ],
+}

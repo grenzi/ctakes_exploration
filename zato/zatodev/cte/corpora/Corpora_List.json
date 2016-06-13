@@ -1,0 +1,34 @@
+{
+ "def_sec": [],
+ "http_soap": [
+  {
+   "audit_back_log": 1440,
+   "audit_enabled": false,
+   "audit_max_payload": 0,
+   "audit_repl_patt_type": "json-pointer",
+   "connection": "channel",
+   "data_format": "json",
+   "has_rbac": false,
+   "host": null,
+   "is_active": true,
+   "is_internal": false,
+   "merge_url_params_req": true,
+   "method": "",
+   "name": "cte-text-identifyterms.json",
+   "params_pri": "channel-params-over-msg",
+   "ping_method": "HEAD",
+   "pool_size": 20,
+   "sec_def": "pubapi",
+   "sec_tls_ca_cert_id": null,
+   "serialization_type": "string",
+   "service": "cte-corpora-list",
+   "service_id": 377,
+   "soap_action": "",
+   "soap_version": null,
+   "timeout": 10,
+   "transport": "plain_http",
+   "url_params_pri": "qs-over-path",
+   "url_path": "/corpora"
+  }
+ ]
+}

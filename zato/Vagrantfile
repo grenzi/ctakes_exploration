@@ -80,16 +80,17 @@ Vagrant.configure(2) do |config|
   echo 'export PATH=$PATH:/opt/zato/current/bin' >>~/.bash_profile
   echo 'export ZATODIR='$ZATODIR >>~/.bash_profile
   zato --version
+
   sudo rm -rf $ZATODIR
   sudo mkdir $ZATODIR
   sudo chown vagrant $ZATODIR
   cd $ZATODIR
   zato quickstart create $ZATODIR sqlite localhost 6379  --verbose
-  sudo find $ZATODIR | grep pid | xargs rm  
-  find $ZATODIR/*.sh | xargs chmod a+x
+  sudo find $ZATODIR | grep pid | xargs rm  2>/dev/null
+  find $ZATODIR/*.sh | xargs chmod a+x 2>/dev/null
   zato update password $ZATODIR/web-admin/ admin
+
   sudo -H pip install flake8
-  pip install git+git://github.com/grenzi/zato-deploy-cli.git
   sudo rm -rf /usr/local/man
   sudo mkdir -p /usr/local/man
   sudo -H pip install zato-apitest

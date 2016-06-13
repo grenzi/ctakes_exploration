@@ -1,0 +1,16 @@
+{
+  "outconn_sql": [
+    {
+      "db_name": "cte",
+      "engine": "mysql+pymysql",
+      "extra": "",
+      "host": "10.211.55.2",
+      "is_active": true,
+      "name": "cte-db-app",
+      "password": "ytex",
+      "pool_size": 1,
+      "port": 3306,
+      "username": "ytex"
+    }
+  ]
+}

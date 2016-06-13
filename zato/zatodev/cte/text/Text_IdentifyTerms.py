@@ -17,7 +17,7 @@ class IdentifyTerms(Service):
 
     @staticmethod
     def get_name():
-        return 'text-identifyterms'
+        return 'cte-text-identifyterms'
 
     def handle(self):
         self.logger.info('Request: {}'.format(self.request.payload))

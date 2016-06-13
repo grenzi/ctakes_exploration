@@ -8,7 +8,7 @@ ZATOEXTRAPATHS=/opt/zato/2.0.7/zato_extra_paths
 echo ""
 printf "${YELLOW} don't forget to change the pubapi password to pubapi in zato here http://localhost:9000/zato/security/basic-auth/?cluster=1${NC}\n"
 printf "\n${BLUE}...stopping zato${NC}\n"
-$ZATODIR/zato-qs-stop.sh
+$ZATODIR/zato-qs-stop.sh >/dev/null
 
 printf "\n${BLUE}...deploying from conf files${NC}\n"
 cd configs
@@ -26,8 +26,8 @@ find $ZATODIR | grep pid | xargs rm 2>/dev/null
 $ZATODIR/zato-qs-start.sh
 netstat -al | grep LIST
 
-printf "${BLUE}...running deploy.sh next${NC}\n"
-source ./deploy.sh
+printf "${BLUE}...run deploy.sh next${NC}\n"
+
 
 
 #todo - get host ip:

@@ -6,16 +6,15 @@
 """
 
 from zato.server.service import Service
-import sys
 from contextlib import closing
 from sql import cte
-from bunch import *
+import json
 
 
 class CorporaList(Service):
     class SimpleIO:
         output_required = ('corpora', 'cid')
-        output_optional = ('error')
+        output_optional = ('franken', 'furter')
 
     @staticmethod
     def get_name():
@@ -27,10 +26,9 @@ class CorporaList(Service):
 
         with closing(self.outgoing.sql.get(db_config_name).session()) as session:
             for c in session.query(cte.Corpus).all():
-                b = Bunch()
-                b.id = c.idCorpus
-                b.nam = c.nameb.description = c.description
-                corpora.append(b)
+                a = dict([('id', c.idCorpus), ('name', c.name), ('description', c.description)])
+                #self.logger.info('adding ' + json.dumps(a))
+                corpora.append(a)
 
         self.response.payload.corpora = corpora
         self.response.payload.cid = self.cid

@@ -10,7 +10,7 @@ import sys
 from contextlib import closing
 from sql import cte
 
-class CorporaList(Service):
+class CorporaUpsert(Service):
     class SimpleIO:
         output_required = ('cid')
         output_optional = ('id', 'error')

@@ -3,6 +3,8 @@ BLUE='\033[0;34m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 
+ZATOEXTRAPATHS=/opt/zato/2.0.7/zato_extra_paths
+
 echo ""
 printf "${YELLOW} don't forget to change the pubapi password to pubapi in zato here http://localhost:9000/zato/security/basic-auth/?cluster=1${NC}\n"
 printf "\n${BLUE}...stopping zato${NC}\n"
@@ -14,10 +16,10 @@ cd configs
 cd ..
 
 printf "\n${BLUE}...copying shared files${NC}\n"
-sudo mkdir -p /opt/zato/2.0.7/zato_extra_paths/sql
-sudo chown vagrant /opt/zato/2.0.7/zato_extra_paths/sql
-cp ./sql/*.py /opt/zato/2.0.7/zato_extra_paths/sql
-sudo cp -R ./lib/bunch /opt/zato/2.0.7/zato_extra_paths
+sudo mkdir -p $ZATOEXTRAPATHS/sql
+sudo chown vagrant $ZATOEXTRAPATHS/sql
+cp ./sql/*.py $ZATOEXTRAPATHS/sql
+sudo cp -R ./lib/bunch $ZATOEXTRAPATHS
 
 printf "${BLUE}...starting zato${NC}\n"
 find $ZATODIR | grep pid | xargs rm 2>/dev/null

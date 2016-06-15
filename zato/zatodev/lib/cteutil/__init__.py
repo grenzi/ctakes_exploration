@@ -7,6 +7,7 @@ import json
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from zato.server.service import Service
 from contextlib import closing
+from bunch import *
 
 class AlchemyEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -35,6 +36,7 @@ class CteServiceBase():
     req = None
     resp = None
     payload = None
+    input = None
 
     def getCteSession(self):
         db_config_name = 'cte-db-app'
@@ -42,9 +44,15 @@ class CteServiceBase():
 
     def initProcessing(self):
         self.req = self.request
+        self.input = self.request.input
         self.resp = self.response
         self.payload = self.response.payload
-        self.payload.cid = self.cid
+        self.payload.status = Bunch()
+        self.payload.status.ver = 1
+        self.payload.status.code = 200
+        self.payload.status.msg = "OK"
+        self.payload.status.error = None
+        self.payload.status.cid = self.cid
 
     def endProcessing(self):
         self.logger.info('Response: {}'.format(self.response))

@@ -11,18 +11,18 @@ metadata = Base.metadata
 class Corpus(Base):
     __tablename__ = 'Corpus'
 
-    idCorpus = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
     name = Column(String(255))
     description = Column(String(255))
 
 
-class CorpusMetadatum(Base):
-    __tablename__ = 'CorpusMetadatum'
+class CorpusMetadata(Base):
+    __tablename__ = 'CorpusMetadata'
 
-    idCorpusMetadatum = Column(Integer, primary_key=True, nullable=False)
-    idCorpus = Column(ForeignKey(u'Corpus.idCorpus'), primary_key=True, nullable=False, index=True)
-    KeyName = Column(String(45), nullable=False)
-    KeyValue = Column(String(255))
+    id = Column(Integer, primary_key=True, nullable=False)
+    corpusid = Column(ForeignKey(u'Corpus.id'), primary_key=True, nullable=False, index=True)
+    keyname = Column(String(45), nullable=False)
+    keyvalue = Column(String(255))
 
     Corpus = relationship(u'Corpus')
 
@@ -30,8 +30,8 @@ class CorpusMetadatum(Base):
 class CorpusText(Base):
     __tablename__ = 'CorpusText'
 
-    idCorpusText = Column(Integer, primary_key=True, nullable=False)
+    id = Column(Integer, primary_key=True, nullable=False)
+    corpusid = Column(ForeignKey(u'Corpus.id'), primary_key=True, nullable=False, index=True)
     content = Column(String, nullable=False)
-    idCorpus = Column(ForeignKey(u'Corpus.idCorpus'), primary_key=True, nullable=False, index=True)
 
     Corpus = relationship(u'Corpus')

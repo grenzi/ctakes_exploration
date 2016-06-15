@@ -32,8 +32,8 @@ class AnnoBaseSequence(Base):
 class AnnoContain(Base):
     __tablename__ = 'anno_contain'
     __table_args__ = (
-        Index('IX_child_id_parent_type', 'child_anno_base_id', 'parent_uima_type_id'),
-        Index('IX_parent_id_child_type', 'parent_anno_base_id', 'child_uima_type_id')
+        Index('IX_parent_id_child_type', 'parent_anno_base_id', 'child_uima_type_id'),
+        Index('IX_child_id_parent_type', 'child_anno_base_id', 'parent_uima_type_id')
     )
 
     parent_anno_base_id = Column(Integer, primary_key=True, nullable=False)
@@ -380,8 +380,8 @@ class Document(Base):
 class FeatureEval(Base):
     __tablename__ = 'feature_eval'
     __table_args__ = (
-        Index('ix_feature_eval', 'corpus_name', 'cv_fold_id', 'type'),
-        Index('nk_feature_eval', 'corpus_name', 'featureset_name', 'label', 'cv_fold_id', 'param1', 'param2', 'type', unique=True)
+        Index('nk_feature_eval', 'corpus_name', 'featureset_name', 'label', 'cv_fold_id', 'param1', 'param2', 'type', unique=True),
+        Index('ix_feature_eval', 'corpus_name', 'cv_fold_id', 'type')
     )
 
     feature_eval_id = Column(Integer, primary_key=True)
@@ -408,8 +408,8 @@ class FeatureParchd(Base):
 class FeatureRank(Base):
     __tablename__ = 'feature_rank'
     __table_args__ = (
-        Index('nk_feature_name', 'feature_eval_id', 'feature_name', unique=True),
         Index('ix_feature_rank', 'feature_eval_id', 'rank'),
+        Index('nk_feature_name', 'feature_eval_id', 'feature_name', unique=True),
         Index('ix_feature_evaluation', 'feature_eval_id', 'evaluation')
     )
 
@@ -467,9 +467,9 @@ class HotspotInstance(Base):
 class HotspotSentence(Base):
     __tablename__ = 'hotspot_sentence'
     __table_args__ = (
+        Index('IX_evaluation', 'hotspot_instance_id', 'evaluation'),
         Index('NK_hotspot_sentence', 'hotspot_instance_id', 'anno_base_id', unique=True),
-        Index('IX_rank', 'hotspot_instance_id', 'rank'),
-        Index('IX_evaluation', 'hotspot_instance_id', 'evaluation')
+        Index('IX_rank', 'hotspot_instance_id', 'rank')
     )
 
     hotspot_sentence_id = Column(Integer, primary_key=True)
@@ -497,8 +497,8 @@ class KernelEval(Base):
 class KernelEvalInstance(Base):
     __tablename__ = 'kernel_eval_instance'
     __table_args__ = (
-        Index('IX_kernel_eval1', 'kernel_eval_id', 'instance_id1'),
         Index('NK_kernel_eval', 'kernel_eval_id', 'instance_id1', 'instance_id2', unique=True),
+        Index('IX_kernel_eval1', 'kernel_eval_id', 'instance_id1'),
         Index('IX_kernel_eval2', 'kernel_eval_id', 'instance_id2')
     )
 

@@ -1,0 +1,568 @@
+{% extends "zato/index.html" %}
+
+{% block html_title %}
+
+    {% ifequal transport 'plain_http' %}
+        Plain HTTP
+    {% else %}
+        SOAP
+    {% endifequal %}
+
+    {% ifequal connection 'channel' %}
+        channels
+    {% else %}
+        outconns
+    {% endifequal %}
+
+{% endblock %}
+
+{% block "extra_css" %}
+    <link rel="stylesheet" type="text/css" href="/static/css/jquery.alerts.css">
+{% endblock %}
+
+{% block "extra_js" %}
+
+    {% comment %} jQuery {% endcomment %}
+    <script type="text/javascript" src="/static/jquery/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="/static/jquery/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/static/jquery/jquery.alerts.min.js"></script>
+
+    <script type="text/javascript" src="/static/js/common.js"></script>
+    <script type="text/javascript" src="/static/js/http_soap/index.js"></script>
+
+
+    <script>
+    $.fn.zato.data_table.get_columns = function() {
+        return [
+            '_numbering',
+            '_selection',
+            'name',
+            '_is_active',
+
+            {% ifequal connection 'outgoing' %}
+                'host',
+            {% endifequal %}
+
+            'url_path',
+
+            {% ifequal connection 'channel' %}
+                '_service',
+            {% endifequal %}
+
+            '_security',
+
+            {% ifequal transport 'soap' %}
+                'soap_action',
+                'soap_version',
+            {% endifequal %}
+
+            {% ifequal connection 'channel' %}
+                'method',
+                'service',
+            {% endifequal %}
+
+            'id',
+            'is_active',
+            'security',
+            'has_rbac',
+            'data_format',
+
+            'timeout',
+            'sec_tls_ca_cert_id',
+
+            {% ifequal connection 'outgoing' %}
+                'ping_method',
+                'pool_size',
+                'serialization_type',
+                'content_type',
+            {% endifequal %}
+
+            {% ifequal connection 'channel' %}
+                'merge_url_params_req',
+                'url_params_pri',
+                'params_pri',
+            {% endifequal %}
+
+            '_edit',
+            '_delete',
+
+            {% ifequal connection 'outgoing' %}
+                '_ping',
+            {% endifequal %}
+            {% ifequal connection 'outgoing' %}
+                '_reload_wsdl',
+            {% endifequal %}
+        ]
+    }
+    </script>
+
+{% endblock %}
+
+{% block "content" %}
+<h2 class="zato">{{ transport_label }} {{ connection_label_plural }}</h2>
+
+{% if not zato_clusters %}
+    {% include "zato/no-clusters.html" %}
+{% else %}
+
+    <div id="user-message-div" style='display:none'><pre id="user-message" class="user-message"></pre></div>
+
+    <div class="prompt">
+    {% if not cluster_id %}
+        Choose a cluster to manage {{ transport_label }} {{ connection_label_plural }}
+    {% endif %}
+
+    <form action="." method="get" id="main_page_form">
+        {{ choose_cluster_form.cluster }}
+        {{ choose_cluster_form.connection }}
+        {{ choose_cluster_form.transport }}
+        <input type="submit" value="Show {{ connection_label_plural }}" />
+    </form>
+    </div>
+
+    {% include "zato/auto-submit.html" %}
+
+    {% if cluster_id %}
+        <div class='page_prompt'>
+            <a href="javascript:$.fn.zato.http_soap.create()">Create a new {{ transport_label }} {{ connection_label }}</a>
+        </div>
+
+
+        <div id="markup">
+            <table id="data-table">
+                <thead>
+                    <tr class='ignore'>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th><a href="#">Name</a></th>
+                        <th><a href="#">Active</a></th>
+                        {% ifequal connection 'outgoing' %}
+                            <th><a href="#">Host</a></th>
+                        {% endifequal %}
+                        <th><a href="#">URL path</a></th>
+                        {% ifequal connection 'channel' %}
+                            <th><a href="#">Service</a></th>
+                        {% endifequal %}
+                        <th><a href="#">Security</a></th>
+                        {% ifequal transport 'soap' %}
+                            <th><a href="#">SOAP action</a></th>
+                            <th><a href="#">SOAP version</a></th>
+                        {% endifequal %}
+                        {% ifequal connection 'channel' %}
+                            <th><a href="#">Method</a></th>
+                            <th class='ignore'>&nbsp;</th>
+                        {% endifequal %}
+
+                        <th class='ignore'>&nbsp;</th>
+                        <th class='ignore'>&nbsp;</th>
+                        <th class='ignore'>&nbsp;</th>
+
+                        <th class='ignore'>&nbsp;</th>
+                        <th class='ignore'>&nbsp;</th>
+                        <th class='ignore'>&nbsp;</th>
+                        <th class='ignore'>&nbsp;</th>
+
+                        {% ifequal connection 'outgoing' %}
+                            <th class='ignore'>&nbsp;</th>
+                            <th class='ignore'>&nbsp;</th>
+                            <th class='ignore'>&nbsp;</th>
+                            <th class='ignore'>&nbsp;</th>
+                        {% endifequal %}
+
+                        {% ifequal connection 'channel' %}
+                            <th class='ignore'>&nbsp;</th>
+                            <th class='ignore'>&nbsp;</th>
+                            <th class='ignore'>&nbsp;</th>
+                        {% endifequal %}
+
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        {% ifequal connection 'outgoing' %}
+                            <th>&nbsp;</th>
+                        {% endifequal %}
+
+                        {% ifequal connection 'outgoing' %}
+                            <th>&nbsp;</th>
+                        {% endifequal %}
+                </thead>
+
+                <tbody>
+                {% if items %}
+                {% for item in items %}
+                    <tr class="{% cycle 'odd' 'even' %}" id='tr_{{ item.id }}'>
+                        <td class='numbering'>&nbsp;</td>
+                        <td class="impexp"><input type="checkbox" /></td>
+
+                        <td>
+                            {% comment %}
+                                No audit for outconns yet
+                            {% endcomment %}
+
+                            {% ifequal connection 'channel' %}
+                                <a href="{% url "http-soap-details" connection transport item.id item.name cluster_id %}">{{ item.name }}</a>
+                            {% else %}
+                                {{ item.name }}
+                            {% endifequal %}
+                        </td>
+                        <td>{{ item.is_active|yesno:'Yes,No' }}</td>
+                        {% ifequal connection 'outgoing' %}
+                            <td>{{ item.host }}</td>
+                        {% endifequal %}
+                        <td>{{ item.url_path }}</td>
+                        {% ifequal connection 'channel' %}
+                            <td><a href="{% url "service-overview" item.service_name %}?cluster={{ cluster_id }}">{{ item.service_name }}</a></td>
+                        {% endifequal %}
+                        <td>{{ item.security_name|safe }}</td>
+                        {% ifequal transport 'soap' %}
+                            <td>{{ item.soap_action }}</td>
+                            <td>{{ item.soap_version }}</td>
+                        {% endifequal %}
+                        {% ifequal connection 'channel' %}
+                            <td>{{ item.method|default:'' }}</td>
+                            <td class='ignore'>{{ item.service_name }}</td>
+                        {% endifequal %}
+
+                        <td class='ignore item_id_{{ item.id }}'>{{ item.id }}</td>
+                        <td class='ignore'>{{ item.is_active }}</td>
+                        <td class='ignore'>{{ item.security_id }}</td>
+
+                        <td class='ignore'>{{ item.has_rbac }}</td>
+                        <td class='ignore'>{{ item.data_format }}</td>
+                        <td class='ignore'>{{ item.timeout }}</td>
+                        <td class='ignore'>{{ item.sec_tls_ca_cert_id }}</td>
+
+                        {% ifequal connection 'outgoing' %}
+                            <td class='ignore'>{{ item.ping_method }}</td>
+                            <td class='ignore'>{{ item.pool_size }}</td>
+                            <td class='ignore'>{{ item.serialization_type }}</td>
+                            <td class='ignore'>{{ item.content_type }}</td>
+                        {% endifequal %}
+
+                        {% ifequal connection 'channel' %}
+                            <td class='ignore'>{{ item.merge_url_params_req }}</td>
+                            <td class='ignore'>{{ item.url_params_pri }}</td>
+                            <td class='ignore'>{{ item.params_pri }}</td>
+                        {% endifequal %}
+
+                        <td><a href="javascript:$.fn.zato.http_soap.edit('{{ item.id }}')">Edit</a></td>
+                        <td><a href="javascript:$.fn.zato.http_soap.delete_('{{ item.id }}')">Delete</a></td>
+                        {% ifequal connection 'outgoing' %}
+                            <td><a href="javascript:$.fn.zato.data_table.ping('{{ item.id }}')">Ping</a></td>
+                        {% endifequal %}
+
+                        {% ifequal connection 'outgoing' %}
+                            <td>{% ifequal item.serialization_type 'suds' %}<a href="javascript:$.fn.zato.http_soap.reload_wsdl('{{ item.id }}')">Reload WSDL</a>{% endifequal %}</td>
+                        {% endifequal %}
+                    </tr>
+                {% endfor %}
+                {% else %}
+                    <tr class='ignore'>
+                        <td colspan='{{ colspan }}'>No results</td>
+                    </tr>
+                {% endif %}
+
+                </tbody>
+            </table>
+        </div>
+
+
+        <div id="create-div" class='data-popup ignore'>
+            <div class="bd">
+                <form action="{% url "http-soap-create" %}?connection={{ connection }}&amp;transport={{ transport }}" method="post" id="create-form">
+                    <table class="form-data">
+                        <tr>
+                            <td style="vertical-align:middle;width:20%">Name</td>
+                            <td>{{ create_form.name }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align:middle">Active</td>
+                            <td>{{ create_form.is_active }}</td>
+                        </tr>
+
+                        {% ifequal connection 'outgoing' %}
+                        <tr>
+                            <td style="vertical-align:middle">Host</td>
+                            <td>{{ create_form.host }}</td>
+                        </tr>
+                        {% endifequal %}
+
+                        <tr>
+                            <td style="vertical-align:middle">URL path</td>
+                            <td>{{ create_form.url_path }}</td>
+                        </tr>
+
+                        {% ifequal connection 'channel' %}
+
+                        <tr>
+                            <td style="vertical-align:middle">Merge URL params to req</td>
+                            <td>{{ create_form.merge_url_params_req }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align:middle">URL params priority</td>
+                            <td>{{ create_form.url_params_pri }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align:middle">Params priority</td>
+                            <td>{{ create_form.params_pri }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align:middle">Method</td>
+                            <td>{{ create_form.method }}</td>
+                        </tr>
+
+                        {% endifequal %}
+
+                        <tr>
+                            <td style="vertical-align:middle">Data format</td>
+                            <td>{{ create_form.data_format }}</td>
+                        </tr>
+
+                        {% ifequal transport 'soap' %}
+                        <tr>
+                            <td style="vertical-align:middle">SOAP action</td>
+                            <td>{{ create_form.soap_action }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align:middle">SOAP version</td>
+                            <td>{{ create_form.soap_version }}</td>
+                        </tr>
+                        {% endifequal %}
+
+                        {% ifequal connection 'channel' %}
+                        <tr>
+                            <td style="vertical-align:middle">Service</td>
+                            <td>{{ create_form.service }}</td>
+                        </tr>
+                        {% endifequal %}
+
+                        {% ifequal connection 'outgoing' %}
+                        <tr>
+                            <td style="vertical-align:middle">Ping method
+                            <br/>
+                            <span class="form_hint">default: {{ default_http_ping_method }} </span>
+                            </td>
+                            <td>{{ create_form.ping_method }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align:middle">Pool size
+                            <br/>
+                            <span class="form_hint">default: {{ default_http_pool_size }} </span>
+                            </td>
+                            <td>{{ create_form.pool_size }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align:middle">Timeout (s)
+                            <br/>
+                            <span class="form_hint">default: {{ default_http_timeout }} </span>
+                            </td>
+                            <td>{{ create_form.timeout }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align:middle">Content type</td>
+                            <td>{{ create_form.content_type }}</td>
+                        </tr>
+
+                        {% ifequal transport 'soap' %}
+                            <tr>
+                                <td style="vertical-align:middle">Serialization type
+                                </td>
+                                <td>{{ create_form.serialization_type }}</td>
+                            </tr>
+                        {% endifequal %}
+
+                        {% endifequal %}
+
+                        <tr>
+                            <td style="vertical-align:middle">Security<br/>definition</td>
+                            <td>{{ create_form.security }}</td>
+                        </tr>
+
+                        {% ifequal connection 'channel' %}
+                        <tr>
+                            <td style="vertical-align:middle">RBAC</td>
+                            <td>{{ create_form.has_rbac }}</td>
+                        </tr>
+                        {% endifequal %}
+
+                        {% ifequal connection 'outgoing' %}
+                        <tr>
+                            <td style="vertical-align:middle">TLS CA certs</td>
+                            <td>{{ create_form.sec_tls_ca_cert_id }}</td>
+                        </tr>
+                        {% endifequal %}
+
+                        <tr>
+                            <td colspan="2" style="text-align:right">
+                                <input type="submit" value="OK" />
+                                <button type='button' onclick='javascript:$.fn.zato.data_table.close(this)'>Cancel</button>
+                            </td>
+
+                        </tr>
+                    </table>
+                    <input type="hidden" id="cluster_id" name="cluster_id" value="{{ cluster_id }}" />
+                    <input type="hidden" name="connection" value="{{ connection }}" />
+                    <input type="hidden" name="transport" value="{{ transport }}" />
+                </form>
+            </div>
+        </div>
+
+        <div id="edit-div" class='data-popup ignore'>
+            <div class="bd">
+                <form action="{% url "http-soap-edit" %}?connection={{ connection }}&amp;transport={{ transport }}" method="post" id="edit-form">
+                    <table class="form-data">
+                        <tr>
+                            <td style="vertical-align:middle;width:20%">Name</td>
+                            <td>{{ edit_form.name }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align:middle">Active</td>
+                            <td>{{ edit_form.is_active }}</td>
+                        </tr>
+
+                        {% ifequal connection 'outgoing' %}
+                        <tr>
+                            <td style="vertical-align:middle">Host</td>
+                            <td>{{ edit_form.host }}</td>
+                        </tr>
+                        {% endifequal %}
+
+                        <tr>
+                            <td style="vertical-align:middle">URL path</td>
+                            <td>{{ edit_form.url_path }}</td>
+                        </tr>
+
+                        {% ifequal connection 'channel' %}
+
+                        <tr>
+                            <td style="vertical-align:middle">Merge URL params to req</td>
+                            <td>{{ edit_form.merge_url_params_req }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align:middle">URL params priority</td>
+                            <td>{{ edit_form.url_params_pri }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align:middle">Params priority</td>
+                            <td>{{ edit_form.params_pri }}</td>
+
+                        <tr>
+                            <td style="vertical-align:middle">Method</td>
+                            <td>{{ edit_form.method }}</td>
+                        </tr>
+                        {% endifequal %}
+
+                        <tr>
+                            <td style="vertical-align:middle">Data format</td>
+                            <td>{{ edit_form.data_format }}</td>
+                        </tr>
+
+                        {% ifequal transport 'soap' %}
+                        <tr>
+                            <td style="vertical-align:middle">SOAP action</td>
+                            <td>{{ edit_form.soap_action }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align:middle">SOAP version</td>
+                            <td>{{ edit_form.soap_version }}</td>
+                        </tr>
+                        {% endifequal %}
+
+                        {% ifequal connection 'channel' %}
+                        <tr>
+                            <td style="vertical-align:middle">Service</td>
+                            <td>{{ edit_form.service }}</td>
+                        </tr>
+                        {% endifequal %}
+
+                        {% ifequal connection 'outgoing' %}
+                        <tr>
+                            <td style="vertical-align:middle">Ping method
+                            <br/>
+                            <span class="form_hint">default: {{ default_http_ping_method }} </span>
+                            </td>
+                            <td>{{ edit_form.ping_method }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align:middle">Pool size
+                            <br/>
+                            <span class="form_hint">default: {{ default_http_pool_size }} </span>
+                            </td>
+                            <td>{{ edit_form.pool_size }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align:middle">Timeout (s)
+                            <br/>
+                            <span class="form_hint">default: {{ default_http_timeout }} </span>
+                            </td>
+                            <td>{{ edit_form.timeout }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align:middle">Content type</td>
+                            <td>{{ edit_form.content_type }}</td>
+                        </tr>
+
+                        {% ifequal transport 'soap' %}
+                            <tr>
+                                <td style="vertical-align:middle">Serialization type
+                                </td>
+                                <td>{{ edit_form.serialization_type }}</td>
+                            </tr>
+                        {% endifequal %}
+
+
+                        {% endifequal %}
+                        
+                        <tr>
+                            <td style="vertical-align:middle">Security<br/>definition</td>
+                            <td>{{ edit_form.security }}</td>
+                        </tr>
+
+                        {% ifequal connection 'channel' %}
+                        <tr>
+                            <td style="vertical-align:middle">RBAC</td>
+                            <td>{{ edit_form.has_rbac }}</td>
+                        </tr>
+                        {% endifequal %}
+
+                        {% ifequal connection 'outgoing' %}
+                        <tr>
+                            <td style="vertical-align:middle">TLS CA certs</td>
+                            <td>{{ edit_form.sec_tls_ca_cert_id }}</td>
+                        </tr>
+                        {% endifequal %}
+
+                        <tr>
+                            <td colspan="2" style="text-align:right">
+                                <input type="submit" value="OK" />
+                                <button type='button' onclick='javascript:$.fn.zato.data_table.close(this)'>Cancel</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="id_edit-cluster_id" name="cluster_id" value="{{ cluster_id }}" />
+                    <input type="hidden" id="id_edit-id" name="id" />
+                    <input type="hidden" name="connection" value="{{ connection }}" />
+                    <input type="hidden" name="transport" value="{{ transport }}" />
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+
+{% endif %}{% comment %}not zato_clusters{% endcomment %}
+
+{% endblock %}

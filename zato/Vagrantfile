@@ -21,7 +21,7 @@ Vagrant.configure(2) do |config|
   #/vagrant is mapped to the directory contiaining the project by default
   config.vm.hostname = "zato"
 
-  config.vm.provider "virtualbox" do |prl|
+  config.vm.provider "parallels" do |prl|
     prl.name = "my_vm"
     prl.memory = 1024
     prl.cpus = 2
@@ -76,16 +76,24 @@ Vagrant.configure(2) do |config|
   sudo mkdir $ZATODIR
   sudo chown vagrant $ZATODIR
   cd $ZATODIR
-  zato quickstart create $ZATODIR sqlite localhost 6379  --verbose
+  zato quickstart create --odb_host gages-MBP --odb_port 3306 --odb_user zato --odb_db_name zato --odb_password zato --cluster_name cte_dev --servers 1 $ZATODIR mysql localhost 6379
+  zato update password $ZATODIR/web-admin/ admin
+  #zato quickstart create $ZATODIR sqlite localhost 6379  --verbose
 
   sudo find $ZATODIR | grep pid | xargs rm  2>/dev/null
   find $ZATODIR/*.sh | xargs chmod a+x 2>/dev/null
-  zato update password $ZATODIR/web-admin/ admin
+
 
   sudo -H pip install flake8
   sudo rm -rf /usr/local/man
   sudo mkdir -p /usr/local/man
   sudo -H pip install zato-apitest
+
+  #node
+  sudo curl -sL https://deb.nodesource.com/setup | sudo bash -
+  sudo apt-get install -y nodejs
+  sudo npm install -g underscore-cli
+
 
 
   echo --------

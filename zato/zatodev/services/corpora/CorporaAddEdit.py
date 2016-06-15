@@ -17,7 +17,7 @@ class CorporaEditService(CteServiceBase, Service):
     class SimpleIO:
         output_required = ('status','data',)
         input_optional = ('id',)
-        input_required=('name', 'description')
+        input_required=('name', 'description',)
         default_value = -1
 
     @staticmethod
@@ -32,21 +32,21 @@ class CorporaEditService(CteServiceBase, Service):
 
         o = cte.Corpus(id=self.input.id, name=self.input.name, description=self.input.description)
 
-        # self.logger.info(json.dumps(o, cls=AlchemyEncoder))
+        self.logger.info(json.dumps(self.input))
+        self.logger.info(json.dumps(o, cls=AlchemyEncoder))
         data = Bunch()
 
         with self.getCteSession() as session:
-            if o.id == -1:
-                del self.request.input.id
-                mo = session.add(o)
+            if o.id == -1 or o.id is None:
+                o.id = None
+                session.add(o)
             else:
-                o.id = self.request.input.id
-                mo = session.merge(o)
+                o = session.merge(o)
             session.flush()
 
-            data.id = mo.id
-            data.name = mo.name
-            data.description = mo.description
+            data.id = o.id
+            data.name = o.name
+            data.description = o.description
 
             self.payload.data = data
             session.commit()

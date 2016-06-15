@@ -5,7 +5,6 @@
 url path | method | service | channel
 --- | --- | --- | ---
 /corpora | GET | cte-corpora-list | channel-cte-corpora-list
-/corpora/\<id\> | POST | cte-corpora-upsert | channel-cte-corpora-upsert
 
 
 # Info

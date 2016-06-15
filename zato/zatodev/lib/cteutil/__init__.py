@@ -6,6 +6,7 @@ __all__ = ('AlchemyEncoder','CteServiceBase')
 import json
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from zato.server.service import Service
+from contextlib import closing
 
 class AlchemyEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -30,3 +31,20 @@ class AlchemyEncoder(json.JSONEncoder):
         b = json.loads(a)
         return b
 
+class CteServiceBase():
+    req = None
+    resp = None
+    payload = None
+
+    def getCteSession(self):
+        db_config_name = 'cte-db-app'
+        return closing(self.outgoing.sql.get(db_config_name).session())
+
+    def initProcessing(self):
+        self.req = self.request
+        self.resp = self.response
+        self.payload = self.response.payload
+        self.payload.cid = self.cid
+
+    def endProcessing(self):
+        self.logger.info('Response: {}'.format(self.response))

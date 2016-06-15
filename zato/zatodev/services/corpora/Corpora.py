@@ -6,73 +6,35 @@
 """
 
 from zato.server.service import Service
-from zato.server.service import AsIs, Boolean, Integer, Unicode, ListOfDicts
-
 from contextlib import closing
 from sql import cte
 import json
 from bunch import *
-from cteutil import AlchemyEncoder
+from cteutil import AlchemyEncoder, CteServiceBase
 from sqlalchemy.ext.declarative import DeclarativeMeta
 
-
-# class CteServiceBase(Service):
-#     req = None
-#     resp = None
-#     payload = None
-#
-#     def __getCteSession(self):
-#         db_config_name = 'cte-db-app'
-#         return closing(self.outgoing.sql.get(db_config_name).session())
-#
-#     def __initProcessing(self):
-#         self.req = self.request
-#         self.resp = self.response
-#         self.payload = self.response.payload
-#         self.payload.cid = self.cid
-#
-#     def __endProcessing(self):
-#         self.logger.info('Response: {}'.format(self.response))
-
-class CorporaService(Service):
+class CorporaService(CteServiceBase, Service):
     class SimpleIO:
         output_required = ('cid',)
         output_optional = ('corpora', 'error')
-
-    req = None
-    resp = None
-    payload = None
-
-    def __getCteSession(self):
-        db_config_name = 'cte-db-app'
-        return closing(self.outgoing.sql.get(db_config_name).session())
-
-    def __initProcessing(self):
-        self.req = self.request
-        self.resp = self.response
-        self.payload = self.response.payload
-        self.payload.cid = self.cid
-
-    def __endProcessing(self):
-        self.logger.info('Response: {}'.format(self.response))
 
     @staticmethod
     def get_name():
         return 'cte-corpora'
 
-
     # GET /corpora
     def handle_GET(self):
-        self.__initProcessing()
+        self.initProcessing()
 
         corpora = []
-        with self.__getCteSession() as session:
+        with self.getCteSession() as session:
             for c in session.query(cte.Corpus).all():
                 corpora.append(AlchemyEncoder.toJsonObj(c))
 
         if len(corpora)>0:
             self.payload.corpora = corpora
 
+        self.endProcessing()
 
 
     # PUT /corpora/{id}

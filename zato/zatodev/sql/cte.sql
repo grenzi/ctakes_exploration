@@ -31,6 +31,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `cte`.`CorpusText` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `corpusid` INT NOT NULL,
+  `name` VARCHAR(255) NULL,
   `content` MEDIUMTEXT NOT NULL,
   PRIMARY KEY (`id`, `corpusid`),
   INDEX `fk_CorpusText_Corpus_idx` (`corpusid` ASC),

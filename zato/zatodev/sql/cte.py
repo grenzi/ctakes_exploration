@@ -32,6 +32,7 @@ class CorpusText(Base):
 
     id = Column(Integer, primary_key=True, nullable=False)
     corpusid = Column(ForeignKey(u'Corpus.id'), primary_key=True, nullable=False, index=True)
+    name = Column(String(255))
     content = Column(String, nullable=False)
 
     Corpus = relationship(u'Corpus')

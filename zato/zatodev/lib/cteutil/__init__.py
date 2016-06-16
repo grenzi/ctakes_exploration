@@ -51,6 +51,7 @@ class CteServiceBase():
         self.payload.status.ver = 1
         self.payload.status.code = 200
         self.payload.status.msg = "OK"
+        self.payload.status.info = None
         self.payload.status.error = None
         self.payload.status.cid = self.cid
 

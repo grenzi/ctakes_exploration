@@ -12,7 +12,7 @@ from zato.server.service import Service
 
 class IdentifyTerms(Service):
     class SimpleIO:
-        input_required = ('text',)
+        input_optional = ('text',)
         output_required = ('terms', 'cid')
 
     @staticmethod

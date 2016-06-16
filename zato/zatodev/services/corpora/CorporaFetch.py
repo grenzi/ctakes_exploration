@@ -22,15 +22,22 @@ class CorporaFetchService(CteServiceBase, Service):
         return 'cte-corpora-list'
 
     # GET /corpora
+    # TODO - implement get one
     def handle_GET(self):
         self.initProcessing()
-
         data = []
-        with self.getCteSession() as session:
-            for c in session.query(cte.Corpus).all():
-                data.append(AlchemyEncoder.toJsonObj(c))
 
-        if len(data)>0:
-            self.payload.data = data
+        try:
+            with self.getCteSession() as session:
+                for c in session.query(cte.Corpus).all():
+                    data.append(AlchemyEncoder.toJsonObj(c))
 
-        self.endProcessing()
+            if len(data) > 0:
+                self.payload.data = data
+
+            self.endProcessing()
+        except Exception as e:
+            self.payload.status.code = 500
+            self.payload.status.msg = "ERR"
+            self.payload.status.error = e
+            self.payload.data = None

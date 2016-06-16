@@ -31,11 +31,17 @@ class CorpusTextDeleteService(CteServiceBase, Service):
         self.initProcessing()
         data = Bunch()
 
-        with self.getCteSession() as session:
-            c = session.query(cte.CorpusText).filter_by(id=self.input.id,corpusid=self.input.corpusid).first()
-            if c is not None:
-                session.delete(c)
-            session.commit()
-            self.payload.data = data
+        try:
+            with self.getCteSession() as session:
+                c = session.query(cte.CorpusText).filter_by(id=self.input.id, corpusid=self.input.corpusid).first()
+                if c is not None:
+                    session.delete(c)
+                session.commit()
+                self.payload.data = data
 
-        self.endProcessing()
+            self.endProcessing()
+        except Exception as e:
+            self.payload.status.code = 500
+            self.payload.status.msg = "ERR"
+            self.payload.status.error = e
+            self.payload.data = None

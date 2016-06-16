@@ -28,13 +28,21 @@ class CorpusTextFetchService(CteServiceBase, Service):
     # GET /corpus/{id}/text/{id}
     def handle_GET(self):
         self.initProcessing()
-
         data = []
-        with self.getCteSession() as session:
-            for c in session.query(cte.CorpusText).filter(corpusid=self.input.id).all():
-                data.append(AlchemyEncoder.toJsonObj(c))
 
-        if len(data)>0:
+        try:
+            with self.getCteSession() as session:
+                if self.input.id == -1 or self.input.id is None:
+                    for t in session.query(cte.CorpusText).filter(corpusid=self.input.corpusid).all():
+                        data.append(AlchemyEncoder.toJsonObj(t))
+                else:
+                    t = session.query(cte.Corpus).filter_by(id=self.input.id, corpusid=self.input.corpusid).first()
+                    data.append(AlchemyEncoder.toJsonObj(t))
+
             self.payload.data = data
-
-        self.endProcessing()
+            self.endProcessing()
+        except Exception as e:
+            self.payload.status.code = 500
+            self.payload.status.msg = "ERR"
+            self.payload.status.error = e
+            self.payload.data = None

@@ -31,14 +31,20 @@ class CorporaDeleteService(CteServiceBase, Service):
         self.initProcessing()
         data = Bunch()
 
-        with self.getCteSession() as session:
-            c = session.query(cte.Corpus).filter_by(id=self.input.id).first()
-            if c is not None:
-                #delete related rows
-                session.query(cte.CorpusMetadata).filter_by(corpusid=self.input.id).delete()
-                session.query(cte.CorpusText).filter_by(corpusid=self.input.id).delete()
-                session.delete(c)
-            self.payload.data = data
-            session.commit()
+        try:
+            with self.getCteSession() as session:
+                c = session.query(cte.Corpus).filter_by(id=self.input.id).first()
+                if c is not None:
+                    # delete related rows
+                    session.query(cte.CorpusMetadata).filter_by(corpusid=self.input.id).delete()
+                    session.query(cte.CorpusText).filter_by(corpusid=self.input.id).delete()
+                    session.delete(c)
+                self.payload.data = data
+                session.commit()
 
-        self.endProcessing()
+            self.endProcessing()
+        except Exception as e:
+            self.payload.status.code = 500
+            self.payload.status.msg = "ERR"
+            self.payload.status.error = e
+            self.payload.data = None

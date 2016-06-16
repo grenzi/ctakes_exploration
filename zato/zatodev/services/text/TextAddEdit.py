@@ -24,29 +24,33 @@ class CorpusTextEditService(CteServiceBase, Service):
     def get_name():
         return 'cte-corpustext-addedit'
 
-    # do we need to add PUT /CorpusText/{id}??
     # POST /corpus/{id}/text/add
     # POST /corpus/{id}/text/{id}/update
     def handle_POST(self):
         self.initProcessing()
-
-        o = cte.CorpusText(id=self.input.id, corpusid=self.input.corpusid, name=self.input.name, content=self.input.content)
-
         data = Bunch()
 
-        with self.getCteSession() as session:
-            if o.id == -1 or o.id is None:
-                o.id = None
-                session.add(o)
-            else:
-                o = session.merge(o)
-            session.flush()
+        try:
+            o = cte.CorpusText(id=self.input.id, corpusid=self.input.corpusid, name=self.input.name,
+                               content=self.input.content)
 
-            data.id = o.id
-            data.corpusid = o.corpusid
+            with self.getCteSession() as session:
+                if o.id == -1 or o.id is None:
+                    o.id = None
+                    session.add(o)
+                else:
+                    o = session.merge(o)
+                session.flush()
 
-            self.payload.data = data
-            session.commit()
+                data.id = o.id
+                data.corpusid = o.corpusid
 
-        self.endProcessing()
+                self.payload.data = data
+                session.commit()
 
+            self.endProcessing()
+        except Exception as e:
+            self.payload.status.code = 500
+            self.payload.status.msg = "ERR"
+            self.payload.status.error = e
+            self.payload.data = None

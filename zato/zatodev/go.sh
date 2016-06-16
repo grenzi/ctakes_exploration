@@ -9,12 +9,7 @@ printf "${YELLOW} tail -f $ZATODIR/server1/logs/server.log to watch zato side\n"
 printf "${BLUE}...stopping zato${NC}\n"
 $ZATODIR/zato-qs-stop.sh >/dev/null
 
-printf "${BLUE}...deploying from conf files${NC}\n"
-cd configs
-#zato-deploy
-cd ..
-
-printf "${BLUE}...copying shared files${NC}\n"
+printf "${BLUE}...copying lib files to zato include directory${NC}\n"
 sudo mkdir -p $ZATOEXTRAPATHS/sql
 sudo chown vagrant $ZATOEXTRAPATHS/sql
 cp ./sql/*.py $ZATOEXTRAPATHS/sql
@@ -25,9 +20,18 @@ find $ZATODIR | grep pid | xargs rm 2>/dev/null
 $ZATODIR/zato-qs-start.sh
 #netstat -al | grep LIST
 
-printf "${BLUE}...run deploy.sh next${NC}\n"
 
+printf "${BLUE}...deploying from conf files (will take a couple seconds as zato starts up)${NC}\n"
+echo "...Dbs"
+zato enmasse $ZATODIR/server1/ --input /vagrant/zatodev/configs/dbs.json  --import --replace-odb-objects
+echo "...Outgoing service links"
+zato enmasse $ZATODIR/server1/ --input /vagrant/zatodev/configs/outgoing.json  --import --replace-odb-objects
+echo "...Corpora"
+zato enmasse $ZATODIR/server1/ --input /vagrant/zatodev/services/corpora/Corpora.json  --import --replace-odb-objects
+echo "...Text"
+zato enmasse $ZATODIR/server1/ --input /vagrant/zatodev/services/text/Text.json  --import --replace-odb-objects
 
+printf "${YELLOW}done. run ./deploy.sh next${NC}\n"
 
 #todo - get host ip:
 # netstat -rn | grep "^0.0.0.0 " | cut -d " " -f10 (but actually seems to be one low on last byte segment. idk.

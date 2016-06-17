@@ -4,7 +4,7 @@
       "db_name": "cte",
       "engine": "mysql+pymysql",
       "extra": "",
-      "host": "10.0.2.2",
+      "host": "__MYSQLHOST__",
       "is_active": true,
       "name": "cte-db-app",
       "password": "ytex",

@@ -54,6 +54,7 @@ class CteServiceBase():
         self.payload.status.info = None
         self.payload.status.error = None
         self.payload.status.cid = self.cid
+        self.log_input("-----------------------input:")
 
     def endProcessing(self):
-        self.logger.info('Response: {}'.format(self.response))
+        self.log_output("-----------------------output:")

@@ -21,8 +21,8 @@ class CorporaEditService(CteServiceBase, Service):
         return 'cte-corpora-addedit'
 
     # do we need to add PUT /corpora/{id}??
-    # POST /corpora/add
-    # POST /corpora/{id}/update
+    # POST /corpus/add
+    # POST /corpus/{id}/update
     def handle_POST(self):
         self.initProcessing()
 

@@ -20,18 +20,31 @@ find $ZATODIR | grep pid | xargs rm 2>/dev/null
 $ZATODIR/zato-qs-start.sh
 #netstat -al | grep LIST
 
+printf "${BLUE}...deploy services${NC}\n"
+rm $ZATODIR/server1/pickup-dir/* 2>/dev/null
+find ./services -name "*.py" -not -name "__init__*" -print | tee | xargs -i echo cp {} $ZATODIR/server1/pickup-dir
 
 printf "${BLUE}...deploying from conf files (will take a couple seconds as zato starts up)${NC}\n"
 echo "...Dbs"
-zato enmasse $ZATODIR/server1/ --input /vagrant/zatodev/configs/dbs.json  --import --replace-odb-objects
+#get gateway ip address (assume db server on host os)
+# this works on a windows host -->
+#     IP=$(/sbin/ip route | awk '/default/ { print $3 }')
+IP=gages-mbp
+echo "......setting DB IP to host IP: $IP"
+sed "s/__MYSQLHOST__/$IP/g" ./configs/dbs.json > ./tempdb.json
+#cat ./tempdb.json
+zato enmasse $ZATODIR/server1/ --input ./tempdb.json  --import --replace-odb-objects
+rm ./tempdb.json
+
 echo "...Outgoing service links"
-zato enmasse $ZATODIR/server1/ --input /vagrant/zatodev/configs/outgoing.json  --import --replace-odb-objects
+#zato enmasse $ZATODIR/server1/ --input /vagrant/zatodev/configs/outgoing.json  --import --replace-odb-objects
 echo "...Corpora"
 zato enmasse $ZATODIR/server1/ --input /vagrant/zatodev/services/corpora/Corpora.json  --import --replace-odb-objects
 echo "...Text"
 zato enmasse $ZATODIR/server1/ --input /vagrant/zatodev/services/text/Text.json  --import --replace-odb-objects
 
-printf "${YELLOW}done. run ./deploy.sh next${NC}\n"
+printf "${YELLOW}done.${NC}\n"
+
 
 #todo - get host ip:
 # netstat -rn | grep "^0.0.0.0 " | cut -d " " -f10 (but actually seems to be one low on last byte segment. idk.

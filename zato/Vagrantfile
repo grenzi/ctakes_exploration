@@ -31,6 +31,7 @@ Vagrant.configure(2) do |config|
 
   #these are the right steps, but they seem to only work when copy pasted. idk
   export ZATODIR=/opt/zatoenv
+  export HOSTIP=$(/sbin/ip route | awk '/default/ { print $3 }')
 
   #redis
   cd /vagrant
@@ -72,11 +73,13 @@ Vagrant.configure(2) do |config|
   echo 'export ZATODIR='$ZATODIR >>~/.bash_profile
   zato --version
 
+  #CREATE SCHEMA `zato`; GRANT ALL PRIVILEGES ON zato.* TO 'zato'@'%' identified by 'zato';
+
   sudo rm -rf $ZATODIR
   sudo mkdir $ZATODIR
   sudo chown vagrant $ZATODIR
   cd $ZATODIR
-  zato quickstart create --odb_host gages-MBP --odb_port 3306 --odb_user zato --odb_db_name zato --odb_password zato --cluster_name cte_dev --servers 1 $ZATODIR mysql localhost 6379
+  zato quickstart create --odb_host $HOSTIP --odb_port 3306 --odb_user zato --odb_db_name zato --odb_password zato --cluster_name cte_dev --servers 1 $ZATODIR mysql localhost 6379
   zato update password $ZATODIR/web-admin/ admin
   #zato quickstart create $ZATODIR sqlite localhost 6379  --verbose
 

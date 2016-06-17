@@ -31,6 +31,7 @@ that configuration.
 - [../doc](../doc/) not sure why I put this up a level in the tree, but want this to have
   our service documentation. it's a sphinx project, so ```make html``` builds it.
   that said, given the [../doc/source/conf.py](../doc/source/conf.py)
+- if line endings get wonko (windows style) run ```find -type f | xargs sed -i -e 's/^M//'```
 
 ## sphinx issue
 even though the conf.py lists the right source directory, I'm not seeing any autodoc

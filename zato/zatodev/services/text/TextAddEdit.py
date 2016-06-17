@@ -1,10 +1,5 @@
-"""
-.. module:: CorpusText
-   :synopsis: A useful module indeed.
-
-.. moduleauthor:: gage
-"""
-
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
 from zato.server.service import Service
 from contextlib import closing
 from sql import cte
@@ -15,7 +10,8 @@ from sqlalchemy.ext.declarative import DeclarativeMeta
 
 class CorpusTextEditService(CteServiceBase, Service):
     class SimpleIO:
-        output_required = ('status','data',)
+        output_required = ('status',)
+        output_optional = ('data',)
         input_optional = ('id','name',)
         input_required=('content','corpusid',)
         default_value = -1

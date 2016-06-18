@@ -13,10 +13,11 @@ Vagrant.configure(2) do |config|
   config.vm.box = "puphpet/ubuntu1404-x64"
   config.vm.box_check_update = false
 
-  config.vm.network "forwarded_port", guest: 11223, host: 9001 #loadbalancer
-  config.vm.network "forwarded_port", guest: 17010, host: 9010 #server1 http
-  config.vm.network "forwarded_port", guest: 17011, host: 9011 #server2 http
+  config.vm.network "forwarded_port", guest: 11223, host: 7000 #loadbalancer
+  config.vm.network "forwarded_port", guest: 17010, host: 7001 #server1 http
+  config.vm.network "forwarded_port", guest: 17011, host: 7002 #server2 http
   config.vm.network "forwarded_port", guest: 8183,  host: 9000 #web admin
+  config.vm.network "forwarded_port", guest: 1111,  host: 8000 #jupyter
 
   #/vagrant is mapped to the directory contiaining the project by default
   config.vm.hostname = "zato"
@@ -29,83 +30,128 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
 
-  #these are the right steps, but they seem to only work when copy pasted. idk
-  export ZATODIR=/opt/zatoenv
-
-  #redis
-  cd /vagrant
-  sudo apt-get update
-  sudo apt-get install linux-headers-$(uname -r) build-essential -y
-  wget http://download.redis.io/redis-stable.tar.gz
-  tar xvzf redis-stable.tar.gz
-  cd redis-stable
-  cd deps; make hiredis lua jemalloc linenoise geohash-int
-  cd ..
-  sudo make install
-  cd utils
-  sudo ./install_server.sh
-
-  sudo service redis_6379 start
-  cd /vagrant
-
-  #libxml
-  curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
-  sudo python get-pip.py
-  sudo apt-get install -y libxml2 libxslt1.1 libxml2-dev libxslt1-dev python-libxml2 python-libxslt1 python-dev python-setuptools
-  sudo easy_install lxml
-  sudo apt-get install -y libffi-dev
-  sudo easy_install -U setuptools
-  sudo pip install --upgrade pip
-  echo 'export PATH=$PATH:/usr/local/bin' >>~/.bash_profile
-  PATH=$PATH:/usr/local/bin
+#these are the right steps, but they seem to only work when copy pasted. idk
+export ZATODIR=/opt/zatoenv
+export MYSQL_USER=root
+export MYSQL_PASS=admin
+export MYSQL_HOST=gages-mbp
 
 
+###############################################################################
+# general things
+###############################################################################
+sudo apt-get install -y -q expect mysql-client
 
-  #zato
-  sudo apt-get install -y curl python-software-properties software-properties-common
-  curl -s https://zato.io/repo/zato-0CBD7F72.pgp.asc | sudo apt-key add -
-  sudo apt-add-repository https://zato.io/repo/stable/2.0/ubuntu
-  sudo apt-get update
-  sudo apt-get install -y apt-transport-https libpq-dev libxml2-dev libxslt1-dev python-dev libyaml-dev zato
-  export PATH=$PATH:/opt/zato/current/bin
-  echo 'export PATH=$PATH:/opt/zato/current/bin' >>~/.bash_profile
-  echo 'export ZATODIR='$ZATODIR >>~/.bash_profile
-  zato --version
+###############################################################################
+# redis
+###############################################################################
+cd /vagrant
+sudo apt-get update
+sudo apt-get install -y linux-headers-$(uname -r) build-essential
+wget http://download.redis.io/redis-stable.tar.gz; tar xvzf redis-stable.tar.gz
+cd redis-stable/deps
+make hiredis lua jemalloc linenoise geohash-int
+cd ..
+sudo make install
+cd utils
+sudo ./install_server.sh
 
-  sudo rm -rf $ZATODIR
-  sudo mkdir $ZATODIR
-  sudo chown vagrant $ZATODIR
-  cd $ZATODIR
-  zato quickstart create --odb_host gages-MBP --odb_port 3306 --odb_user zato --odb_db_name zato --odb_password zato --cluster_name cte_dev --servers 1 $ZATODIR mysql localhost 6379
-  zato update password $ZATODIR/web-admin/ admin
-  #zato quickstart create $ZATODIR sqlite localhost 6379  --verbose
+sudo service redis_6379 start
+cd /vagrant
 
-  sudo find $ZATODIR | grep pid | xargs rm  2>/dev/null
-  find $ZATODIR/*.sh | xargs chmod a+x 2>/dev/null
+###############################################################################
+# libxml
+###############################################################################
+curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+sudo python get-pip.py
+sudo apt-get install -y libxml2 libxslt1.1 libxml2-dev libxslt1-dev python-libxml2 python-libxslt1 python-dev python-setuptools
+sudo easy_install lxml
+sudo apt-get install -y libffi-dev
+sudo easy_install -U setuptools
+sudo pip install --upgrade pip
+echo 'export PATH=$PATH:/usr/local/bin' >>~/.bash_profile
+PATH=$PATH:/usr/local/bin
 
+###############################################################################
+# zato
+###############################################################################
+sudo apt-get install -y curl python-software-properties software-properties-common
+curl -s https://zato.io/repo/zato-0CBD7F72.pgp.asc | sudo apt-key add -
+sudo apt-add-repository https://zato.io/repo/stable/2.0/ubuntu
+sudo apt-get update; sudo apt-get install -y apt-transport-https libpq-dev libxml2-dev libxslt1-dev python-dev libyaml-dev zato
+export PATH=$PATH:/opt/zato/current/bin
+echo 'export PATH=$PATH:/opt/zato/current/bin' >>~/.bash_profile
+echo 'export ZATODIR='$ZATODIR >>~/.bash_profile
+zato --version
 
-  sudo -H pip install flake8
-  sudo rm -rf /usr/local/man
-  sudo mkdir -p /usr/local/man
-  sudo -H pip install zato-apitest
+echo 'creating zato config db'
 
-  #node
-  sudo curl -sL https://deb.nodesource.com/setup | sudo bash -
-  sudo apt-get install -y nodejs
-  sudo npm install -g underscore-cli
+mysql -u$MYSQL_USER -p$MYSQL_PASS -h$MYSQL_HOST -e "DROP SCHEMA IF EXISTS zato;"
+mysql -u$MYSQL_USER -p$MYSQL_PASS -h$MYSQL_HOST -e "CREATE DATABASE zato DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
+mysql -u$MYSQL_USER -p$MYSQL_PASS -h$MYSQL_HOST -e "GRANT ALL ON zato.* TO 'zatoapp'@'%' identified by 'zatoapp';"
 
+sudo rm -rf $ZATODIR
+sudo mkdir $ZATODIR
+sudo chown vagrant $ZATODIR
+cd $ZATODIR
 
+expect <<EOD
+spawn zato quickstart create --odb_host gages-MBP --odb_port 3306 --odb_user zatoapp --odb_db_name zato --odb_password zatoapp --cluster_name cte_dev --servers 1 $ZATODIR mysql localhost 6379
+expect "Key/value database password (will not be echoed):"
+send "\n"
+expect " again (will not be echoed):"
+send "\n"
+expect "Visit https://zato.io/support for more information and support options"
+EOD
 
-  echo --------
-  echo run:
-  echo
-  echo see here for changes to config for listenting: https://mailman-mail5.webfaction.com/pipermail/zato-discuss/2013-November/000102.html     gunicorn_bind=localhost:17010
-  echo to clear a bad shutdown
-  echo      find $ZATODIR | grep pid | xargs rm
-  echo to start zato
-  echo      $ZATODIR/zato-qs-start.sh
-  echo ping service
-  echo      curl localhost:11223/zato/ping ; echo
+expect <<EOD
+spawn zato update password $ZATODIR/web-admin/ admin
+expect "The new password (will not be echoed):"
+send "admin\n"
+expect "Enter the password again (will not be echoed):"
+send "admin\n"
+expect "OK"
+EOD
+
+sudo find $ZATODIR | grep pid | xargs rm  2>/dev/null
+find $ZATODIR/*.sh | xargs chmod a+x 2>/dev/null
+
+###############################################################################
+# zato api test
+###############################################################################
+
+sudo -H pip install flake8
+sudo rm -rf /usr/local/man
+sudo mkdir -p /usr/local/man
+sudo -H pip install zato-apitest
+
+###############################################################################
+# node
+###############################################################################
+sudo curl -sL https://deb.nodesource.com/setup | sudo bash -
+sudo apt-get install -y nodejs
+sudo npm install -g underscore-cli
+
+###############################################################################
+# jupyter
+###############################################################################
+sudo -H pip install jupyter
+
+cat << EOF > ~/jupyter.sh
+#!/usr/bin/env bash
+cd ~/zatodev
+nohup jupyter notebook --no-browser --port 1111 --ip=* >> $HOME/nohup.out &
+cd ..
+EOF
+
+chmod a+x ~/jupyter.sh
+#symlink to vagrant dev if exists
+[ -d /vagrant/zatodev ] && ln -s /vagrant/zatodev ~/zatodev
+
+###############################################################################
+# all done =)
+###############################################################################
+echo provisioned
 
   SHELL
 end

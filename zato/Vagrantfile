@@ -22,8 +22,14 @@ Vagrant.configure(2) do |config|
   #/vagrant is mapped to the directory contiaining the project by default
   config.vm.hostname = "zato"
 
+  config.vm.provider "virtualbox" do |prl|
+    prl.name = "zatodev"
+    prl.memory = 1024
+    prl.cpus = 2
+  end
+
   config.vm.provider "parallels" do |prl|
-    prl.name = "my_vm"
+    prl.name = "zatodev"
     prl.memory = 1024
     prl.cpus = 2
   end

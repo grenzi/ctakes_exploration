@@ -28,8 +28,8 @@ printf "${BLUE}...deploying from conf files (will take a couple seconds as zato 
 echo "...Dbs"
 #get gateway ip address (assume db server on host os)
 # this works on a windows host -->
-#     IP=$(/sbin/ip route | awk '/default/ { print $3 }')
-IP=gages-mbp
+IP=$(/sbin/ip route | awk '/default/ { print $3 }')
+#IP=gages-mbp
 echo "......setting DB IP to host IP: $IP"
 sed "s/__MYSQLHOST__/$IP/g" ./configs/dbs.json > ./tempdb.json
 #cat ./tempdb.json

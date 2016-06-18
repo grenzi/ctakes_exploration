@@ -1,31 +1,37 @@
+# -*- coding: utf-8 -*-
+Feature: zato-apitest cte
 
-Feature: zato-apitest demonstration
-
-Scenario: *** REST JSON Demo ***
-
+  Scenario: *** Get corpus list - empty ***
     Given address "http://localhost:11223"
     Given URL path "/corpus"
     Given HTTP method "GET"
-    #Given query string "?demo=1"
     Given format "JSON"
     Given request is "{}"
-#    Given JSON Pointer "/a" in request is "abc"
-#    Given JSON Pointer "/foo" in request is an integer "7"
-#    Given JSON Pointer "/bar" in request is a list "1,2,3,4,5"
-#    Given JSON Pointer "/baz" in request is a random string
-#    Given JSON Pointer "/hi5" in request is one of "a,b,c,d,e"
+    When  the URL is invoked
+    Then  status is "200"
+    And   JSON Pointer "/response/data" is empty
+    And   JSON Pointer "/response/status/msg" is "OK"
 
-    When the URL is invoked
+  Scenario: *** Create Corpus ***
+    Given address "http://localhost:11223"
+    Given URL path "/corpus/add"
+    Given HTTP method "POST"
+    Given format "JSON"
+    Given request is "{}"
+    Given JSON Pointer "/name" in request is "API Testing Corpus One"
+    Given JSON Pointer "/description" in request is "This is an interesting description of the content in the corpus"
+    When  the URL is invoked
+    Then  status is "200"
+    And   JSON Pointer "/response/status/msg" is "OK"
+    And   JSON Pointer "/response/data/id" is an integer "1"
 
-    Then JSON Pointer "/action/msg" is "Now, is that cool or is that cool?"
-    And JSON Pointer "/action/code" is an integer "0"
-    And JSON Pointer "/action/flow" is a list "Ack,Done"
-    And status is "200"
-    And header "Connection" is "keep-alive"
-    And header "Server" isn't empty
-
-    # You can also compare responses directly inline ..
-    And response is equal to "{"action":{"code":0, "msg":"Now, is that cool or is that cool?", "flow":["Ack", "Done"]}}"
-
-    # .. or read them from disk.
-    And response is equal to that from "demo.json"
+  Scenario: *** Get corpus list - one item ***
+    Given address "http://localhost:11223"
+    Given URL path "/corpus"
+    Given HTTP method "GET"
+    Given format "JSON"
+    Given request is "{}"
+    When  the URL is invoked
+    Then  status is "200"
+    And   JSON Pointer "/response/status/msg" is "OK"
+    And   JSON Pointer "/response/data" is equal to "[{"id": 1, "description": "This is an interesting description of the content in the corpus", "name": "API Testing Corpus One"}]"

@@ -13,8 +13,7 @@
 vagrant ssh
 $ZATODIR/zato-qs-start.sh
 ```
-  - if there's anything wrong, you won't see listening ports: ```netstat -al | grep LIST```
-- set the pubapi password to pubapi, via the web admin [here](http://localhost:9000/zato/security/basic-auth/?cluster=1)
+- if there's anything wrong, you won't see listening ports: ```netstat -al | grep LIST```
 - run ```$ZATODIR/zato-qs-stop.sh```
 
 ## subsequent times

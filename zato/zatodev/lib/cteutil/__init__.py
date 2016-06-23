@@ -172,8 +172,15 @@ class CteServiceBase():
         self.payload.status.info = None
         self.payload.status.error = None
         self.payload.status.cid = self.cid
-        self.log_input("-----------------------input:")
+        #self.log_input("-----------------------input:")
 
     def endProcessing(self):
-        self.log_output("-----------------------output:")
+        #self.log_output("-----------------------output:")
+        pass
+
+    def errorHandler(self, e):
+        self.payload.status.code = 500
+        self.payload.status.msg = "ERR"
+        self.payload.status.error = e
+        self.payload.data = None
 

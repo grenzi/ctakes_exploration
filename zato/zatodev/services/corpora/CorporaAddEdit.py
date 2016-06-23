@@ -8,7 +8,8 @@ from bunch import *
 from cteutil import AlchemyEncoder, CteServiceBase
 from sqlalchemy.ext.declarative import DeclarativeMeta
 
-class CorporaEditService(CteServiceBase, Service):
+
+class TemplateServiceName(CteServiceBase, Service):
     class SimpleIO:
         output_required = ('status',)
         output_optional = ('data',)

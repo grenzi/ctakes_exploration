@@ -29,7 +29,7 @@ echo "...Dbs"
 #get gateway ip address (assume db server on host os)
 # this works on a windows host -->
 export IP=$(/sbin/ip route | awk '/default/ { print $3 }')
-export IP=gages-mbp
+#export IP=gages-mbp
 echo "......setting DB IP to host IP: $IP"
 sed "s/__MYSQLHOST__/$IP/g" ./configs/dbs.json > ./tempdb.json
 #cat ./tempdb.json
@@ -38,10 +38,6 @@ rm ./tempdb.json
 
 echo "...Outgoing service links"
 #zato enmasse $ZATODIR/server1/ --input /vagrant/zatodev/configs/outgoing.json  --import --replace-odb-objects
-echo "...Corpora"
-zato enmasse $ZATODIR/server1/ --input /vagrant/zatodev/services/corpora/Corpora.json  --import --replace-odb-objects
-echo "...Text"
-zato enmasse $ZATODIR/server1/ --input /vagrant/zatodev/services/text/Text.json  --import --replace-odb-objects
 
 printf "${YELLOW}done.${NC}\n"
 

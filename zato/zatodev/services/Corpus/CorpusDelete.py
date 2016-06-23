@@ -10,32 +10,29 @@ from sqlalchemy.ext.declarative import DeclarativeMeta
 import sys
 
 
-class ${noun}${verb}Service(CteServiceBase, Service):
+class CorpusDeleteService(CteServiceBase, Service):
     class SimpleIO:
         output_optional = ('data',)
-        input_optional = ('id',)
-        # input_required = ('id',)
+        input_required = ('id',)
 
     @staticmethod
     def get_name():
-        return 'cte.service.${noun}.${verb}'
+        return 'cte.service.Corpus.Delete'
 
     @staticmethod
     def get_channels():
         return[
-        % for method in channelmethods:
-            {'name': u'cte.${channelnoun}.${channelverb}.${method}', 'method': u'${method}', 'path': u'/api/${channelnoun}/${channelverb}'},
-        % endfor
+            {'name': u'cte.corpus.delete.DELETE', 'method': u'DELETE', 'path': u'/api/corpus/delete'},
+            {'name': u'cte.corpus.delete.POST', 'method': u'POST', 'path': u'/api/corpus/delete'},
         ]
 
     @staticmethod
     def after_add_to_store(logger):
         from cteutil import ChannelUtils
-        logger.info('Configuring {}'.format(${noun}${verb}Service.get_name()))
+        logger.info('Configuring {}'.format(CorpusDeleteService.get_name()))
         cu = ChannelUtils(logger)
         cu.configure_service_file(os.path.realpath(__file__))
 
-    #todo - make stub handle examples for get/create/delete/etc
     def handle(self):
         self.initProcessing()
         data = Bunch()
@@ -43,7 +40,12 @@ class ${noun}${verb}Service(CteServiceBase, Service):
         try:
             with self.getCteSession() as session:
                 c = session.query(cte.Corpus).filter_by(id=self.input.id).first()
-                self.payload.data = AlchemyEncoder.toJsonObj(c)
+                if c is not None:
+                    # delete related rows?
+                    session.query(cte.CorpusMetadata).filter_by(corpusid=self.input.id).delete()
+                    session.query(cte.CorpusText).filter_by(corpusid=self.input.id).delete()
+                    session.delete(c)
+                self.payload.data = data
                 session.commit()
 
             self.endProcessing()

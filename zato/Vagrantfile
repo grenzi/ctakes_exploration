@@ -40,7 +40,7 @@ Vagrant.configure(2) do |config|
 export ZATODIR=/opt/zatoenv
 export MYSQL_USER=root
 export MYSQL_PASS=admin
-export MYSQL_HOST=gages-mbp
+export MYSQL_HOST=$(/sbin/ip route | awk '/default/ { print $3 }')
 
 
 ###############################################################################
@@ -102,7 +102,7 @@ sudo chown vagrant $ZATODIR
 cd $ZATODIR
 
 expect <<EOD
-spawn zato quickstart create --odb_host gages-MBP --odb_port 3306 --odb_user zatoapp --odb_db_name zato --odb_password zatoapp --cluster_name cte_dev --servers 1 $ZATODIR mysql localhost 6379
+spawn zato quickstart create --odb_host $MYSQL_HOST --odb_port 3306 --odb_user zatoapp --odb_db_name zato --odb_password zatoapp --cluster_name cte_dev --servers 1 $ZATODIR mysql localhost 6379
 expect "Key/value database password (will not be echoed):"
 send "\n"
 expect " again (will not be echoed):"

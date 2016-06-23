@@ -10,41 +10,38 @@ from sqlalchemy.ext.declarative import DeclarativeMeta
 import sys
 
 
-class ${noun}${verb}Service(CteServiceBase, Service):
+class CorpusGetListService(CteServiceBase, Service):
     class SimpleIO:
         output_optional = ('data',)
-        input_optional = ('id',)
-        # input_required = ('id',)
 
     @staticmethod
     def get_name():
-        return 'cte.service.${noun}.${verb}'
+        return 'cte.service.Corpus.GetList'
 
     @staticmethod
     def get_channels():
         return[
-        % for method in channelmethods:
-            {'name': u'cte.${channelnoun}.${channelverb}.${method}', 'method': u'${method}', 'path': u'/api/${channelnoun}/${channelverb}'},
-        % endfor
+            {'name': u'cte.corpus.get-list.GET', 'method': u'GET', 'path': u'/api/corpus/get-list'},
         ]
 
     @staticmethod
     def after_add_to_store(logger):
         from cteutil import ChannelUtils
-        logger.info('Configuring {}'.format(${noun}${verb}Service.get_name()))
+        logger.info('Configuring {}'.format(CorpusGetListService.get_name()))
         cu = ChannelUtils(logger)
         cu.configure_service_file(os.path.realpath(__file__))
 
-    #todo - make stub handle examples for get/create/delete/etc
     def handle(self):
         self.initProcessing()
         data = Bunch()
 
         try:
             with self.getCteSession() as session:
-                c = session.query(cte.Corpus).filter_by(id=self.input.id).first()
-                self.payload.data = AlchemyEncoder.toJsonObj(c)
-                session.commit()
+                for c in session.query(cte.Corpus).all():
+                    data.append(AlchemyEncoder.toJsonObj(c))
+
+            if len(data) > 0:
+                self.payload.data = data
 
             self.endProcessing()
         except Exception as e:

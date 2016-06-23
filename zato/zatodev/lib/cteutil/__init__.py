@@ -162,7 +162,7 @@ class CteServiceBase():
 
     def initProcessing(self):
         self.req = self.request
-        self.input = self.request.input
+        self.input = self.request.input or None
         self.resp = self.response
         self.payload = self.response.payload
         self.payload.status = Bunch()
